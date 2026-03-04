@@ -1,5 +1,5 @@
 ---
-title: "lgc"
+title: "AS2026"
 listing:
   contents: posts
   sort: [date desc, title]

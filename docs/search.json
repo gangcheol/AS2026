@@ -1,13 +1,266 @@
 [
   {
-    "objectID": "posts/00. Intro.html",
-    "href": "posts/00. Intro.html",
-    "title": "00. Intro",
+    "objectID": "posts/HW 02.html",
+    "href": "posts/HW 02.html",
+    "title": "HW 02",
     "section": "",
-    "text": "TEST\ntest 입니다.\n\\[\\hat y = \\beta_{1} x + \\beta_{0},\\quad  X \\sim N(\\mu, \\sigma^2)\\]",
+    "text": "“Lego2.csv”은 레고 세트의 출시 가격(Price, 단위 : 달러)에 대한 데이터이다. 테마와 부품 수를 이용하여 출시 가격을 예측하기 위한 단순선형회귀모형을 적합하려고 한다. 다음 물음에 답하여라. (Pieces : 부품 수, Year : 출시년도, Name : 제품명, Theme : 테마) (모든 유의성 검정에 대한 유의수준 α = 0.05 사용)\n\nimport pandas as pd\nimport numpy as np\nimport plotly.express as px\nimport plotly.io as pio\nimport warnings\nfrom IPython.display import HTML\nimport plotly.graph_objects as go\nfrom plotly.subplots import make_subplots\nimport os\nimport glob\n\nwarnings.filterwarnings(action = 'ignore')\npd.options.plotting.backend = 'plotly'\npio.templates.default = 'plotly_white' \n\n\n\n부품 수를 \\(x\\)축으로 하고, 가격을 \\(y\\)축으로 하는 산점도를 그리시오. 단 각 점의 색상은 테마별로 다르게 표시하시오.\n\n\n\ndf = pd.read_csv('data/lego2.csv')\n\n\nfig = df.plot(\n    kind = 'scatter',\n    x = 'Pieces',\n    y = 'Price',\n    color = 'Theme',\n    opacity = 0.75,\n    title = 'Price vs Pieces (colored by Theme)'\n)\n\nfig.update_layout(\n    xaxis_title = 'Pieces',\n    yaxis_title = 'Price (USD)',\n    legend_title = 'Theme',\n    width = 800,\n    height = 600\n)\n\nfig.show()\n\n                            \n                                            \n\n\n\n\n\n\n\n출시 가격을 예측하기 위한 모형을 정의하여라. (단, 범주형 변수인 테마를 처리하기 위한 가변수 설정을 포함하되, 변수 간 교호작용은 고려하지 않음.)\n\n\n데이터 \\(i = 1,2 \\dots n\\)에 대하여\n\n\\(Y_i = \\text{Price (달러)}\\)\n\\(x_i = \\text{Pieces (부품 수)}\\)\nTheme는 범주가 \\(K\\)개인 범주형 변수라고 하자.\n\n기준 테마(reference themes)를 하나 정하여 (예: Theme의 첫 범주 또는 가장 빈도가 큰 범주) 이를 \\(T_1\\)이라 하고, 나머지 테마를 \\(T_2,\\dots T_K\\)라고 하자.\n그 때, 교호작용 없이 Theme를 더미변수로 포함한 선형회귀모형은\n\\[Y_i = \\beta_0 + \\beta_1x_i + \\sum_{k=2}^{K} \\gamma_{k}1(\\text{Theme}_i = T_k) + \\epsilon_i, \\quad i = 1, 2\\dots n\\]\n\n여기서 \\(1(\\text{Theme}_i) = T_k\\)는 관측치 “i의 테마가 \\(T_k\\)이면, 1아니면 0”인 가변수이다.\n\\(\\gamma_k\\,\\,(k\\geq 2):\\) Theme가 \\(T_K\\)일 때 절편 이동량\n\n즉, 같은 Pieces 값에서 \\(T_k\\) 테마는 기준 테마 \\(T_1\\)에 비해 평균 가격이 \\(\\gamma_k\\)만큼 높거나, 낮다는 뜻이다.\n\n\n\n해당 모형은 테마별로 절편만 달리지고(Pieces에 대한 기울기 \\(\\beta_1\\)는 공통), 즉 테마 간 부품 가격 증가율(=기울기)은 동일하다고 가정한다.\n\n\ndf[\"Theme\"] = df[\"Theme\"].astype(\"category\")\n\nref_theme = df[\"Theme\"].cat.categories[0]\n\nX_theme = pd.get_dummies(df[\"Theme\"], drop_first=True)\n\nX = pd.concat([df[[\"Pieces\"]], X_theme], axis=1)\n\n#ref_theme, X.head()\n\n\n\n\n\n\n회귀 모형을 적합하고, 추정된 회귀 계수들의 유의성 검정을 수행하시오.\n\n\n(1) 1-(2)에서 정의했던 모형 활용\n기준 테마(reference)를 Friends로 두고 (더미에서 제외), 다음 모형을 적합한다.\n\\[\\epsilon_i \\stackrel{\\text{i.i.d.}}{\\sim} \\mathcal{N}(0,\\sigma^2), \\quad i=1,\\dots n\\]\n\\[\\text{Price}_i = \\beta_0 + \\beta_1 \\text{Pieces}_i + \\gamma_2 1(\\text{Theme} = \\text{Harry Potter}) + \\gamma_3 1(\\text{Theme} = \\text{Marvel Super Heroes}) + \\gamma_4 1(\\text{Theme} = \\text{Star Wars}) + \\epsilon_i\\]\n(2) 추정된 회귀계수 및 개별 유의성 검정(t-test)\n각 회귀계수에 대하여\n\\[H_0: \\text{해당 변수의 회귀계수} = 0 \\quad vs \\quad H_1: \\text{해당 변수의 회귀계수} \\neq 0\\]\n위 가설에 대한 양측 \\(t\\)-검정을 유의수준 \\(\\alpha = 0.05\\)에서 수행한 결과이다.\n(표본크기 \\(n = 212\\), \\(df\\)(자유도) \\(n-(p+1) = 207\\) )\n\n\n\n\n\n\n\n\n\n\n\n계수\n추정치\n표준오차\nt\np-value\n결론(α=0.05)\n\n\n\n\nIntercept (\\(\\beta_0\\))\n-1.32\n1.80\n-0.73\n0.46\n유의하지 않음\n\n\nPieces (\\(\\beta_1\\))\n0.10\n0.002\n68.35\n&lt; 2e-16\n유의\n\n\nHarry Potter (\\(\\gamma_{HP}\\))\n2.85\n3.97\n0.72\n0.47\n유의하지 않음\n\n\nMarvel Super Heroes (\\(\\gamma_{MSH}\\))\n11.03\n2.95\n3.75\n0.00\n유의\n\n\nStar Wars (\\(\\gamma_{SW}\\))\n7.89\n2.73\n2.89\n0.004\n유의\n\n\n\n(3) summary\n\nPieces의 회귀계수 \\(\\beta_1\\)는 매우 유의미하며, 부품 수가 증가할수록 평균 가격이 증가한다고 볼 수 있다.\n테마 효과는 기준(Friends) 대비로 해석되며, Marvel Super Heroes, Star Wars는 Friends 대비 유의한 절편 차이가 관찰되었다.\nHary Potter는 Friends대비 차이가 통계적으로 유의하지 않았다.\n\n\nimport statsmodels.api as sm\n\n## 반응변수 y 설정\nX = X.astype(float)\n\n## X에 상수항(intercept)만 추가해서 회귀모형 적합\n\nX1 = sm.add_constant(X, has_constant=\"add\")\n\ny = df[\"Price\"]\nmodel = sm.OLS(y, X1).fit()\n\n#print(model.summary())\n\n\n\n\n\n\n추정된 회귀계수의 의미를 설명하여라.\n\n\n1 \\(\\beta_0\\) (절편)\n\n기준 테마 \\(T_1\\)에서, \\(\\text{Pieces}=0\\)일 때의 평균 가격을 의미한다.\n실제로 Pieces가 0인 제품은 거의 없으므로, \\(\\beta_0\\)ㅇ 자체의 어떤 의미를 가지는 해석은 제한적이다.\n\n2 \\(\\beta_1\\): Pieces의 기울기\n\n모든 테마에서 공통으로, Piece가 1증가할 때 평균 가격이 \\(\\beta_1\\)만큼 증가한다고 해석할 수 있다.\n교호작용을 포함하지 않았으므로, 테마별로 기울기가 달라지이 않는다는 가정을 내포한다.\n\n3 \\(\\gamma_k\\)\n\n\\(\\gamma_k\\)는 \\(T_k\\)일 때, 기준 테마 \\(T_1\\)에 비해 평균 가격이 얼마나 달라지는 지를 나타내는 절편의 이동량(shift)이다.\n좀더 상세하게 말하면,\n\n\\[E(Y | x, \\text{Theme} = T_{k}) - E(Y| x, \\text{Theme} = T_1) = \\gamma_k\\]\n\n이므로, 같은 Pieces(\\(x\\))에서 기준 테마 대비 평균 가격 차이(달러) 로 해석한다.\n\\(\\gamma &gt; 0\\)이면 \\(T_L\\)는 기준 테마보다 더 비싼, 반대의 경우 더 저렴함을 의미한다.\n\n\n\n\n\n테마가 출시 가격에 통계적으로 유의미한 영향을 미친다고 할 수 있는가?\n(여러가지 근거를 바탕으로 설명하여라.)\n\n\n1 비교할 두 모형\n\n축소모형(Reduced model): Piece만 사용\n\n\\[M_{R}: \\quad Y_i = \\beta_0 + \\beta_1 \\times \\text{Pieces}_i +\\epsilon\\]\n\nFull model: Pieces + Theme\n\n\\[M_{F}: \\quad Y_i = \\beta_0 + \\beta_1 \\times \\text{Pieces}_i + \\sum_{k=2}^{K} \\gamma_{k} 1(\\text{Theme}_i = T_{K})+\\epsilon_i \\]\n2 검정 가설\nTheme가 모형에 추가로 기여하는지를 보는 것이므로,\n\\[H_0: \\gamma_k = 0 \\quad vs \\quad H_1: \\text{적어도 하나의 } \\gamma_k \\neq 0\\]\n3 부분 F-검정 결론\n\n부분 F-검정에서 p-value가 0.05 미만이면, Theme 더미들을 추가하는 것이 SSE를 유의미하게 감소시키므로 Theme는 Price에 통계적으로 유의미한 영향을 준다고 결론 내릴 수 있다.\n\n\n\n\n\n\n\n\n\n\n\nModel\nSSE (RSS)\ndf\nMSE\n비교\n\n\n\n\nReduced: Price ~ Pieces\n57,322\n210\n273\n\n\n\nFull: Price ~ Pieces + Theme\n52,952\n207\n256\n\n\n\nPartial F\n5.6934\n(q=3)\n\np-value = 0.000916\n\n\n\n\\[F  = \\frac{(Rss_R-RSS_F)/q}{RSS_{F}/df_{f}} = 5.369...\\]\n\\[p_value = P(F_{3,207} \\geq 5.6394) = 0.000916\\]\n\n결론: p-value&lt;0.05이므로 Theme는 Price에 통계적으로 유의미한 영향을 미친다.\n\n\nimport statsmodels.api as sm\nfrom statsmodels.stats.anova import anova_lm\n\nmodel_full = model  \n\nX_reduced = sm.add_constant(df[[\"Pieces\"]].astype(float), has_constant=\"add\")\nmodel_reduced = sm.OLS(df[\"Price\"], X_reduced).fit()\n\nanova_res = anova_lm(model_reduced, model_full)\n#anova_res\n\n\n\n\n\n\n잔차검정을 수행하고, 선형 회귀의 기본 가정을 잘 만족하는지를 확인하여라.\n\n\n\nResiduals vs FittedNormal Q-Q plot\n\n\n\n# 1) 잔차/적합값\nresid = model.resid\nfitted = model.fittedvalues\n\n# (A) Residuals vs Fitted (Theme 색칠까지 하면 발표에 좋음)\ntmp = df.loc[fitted.index, [\"Theme\"]].copy()\ntmp[\"Fitted\"] = fitted\ntmp[\"Residual\"] = resid\n\nfig1 = px.scatter(tmp, x=\"Fitted\", y=\"Residual\", color=\"Theme\", opacity=0.75,\n                  title=\"Residuals vs Fitted (colored by Theme)\")\nfig1.add_hline(y=0, line_width=1)\nfig1.update_layout(width=800, height=600)\nfig1.show()\n\n                            \n                                            \n\n\n\n\n\nimport scipy.stats as st\n\nr = np.asarray(resid)\nr_sorted = np.sort(r)\nn = len(r_sorted)\ntheo_q = st.norm.ppf((np.arange(1, n+1) - 0.5) / n)\n\nfig2 = go.Figure()\nfig2.add_trace(go.Scatter(x=theo_q, y=r_sorted, mode=\"markers\", name=\"Residuals\"))\n# 기준선(대략): 기울기=표준편차, 절편=평균\nfig2.add_trace(go.Scatter(x=[theo_q.min(), theo_q.max()],\n                          y=[r_sorted.mean() + r_sorted.std(ddof=1)*theo_q.min(),\n                             r_sorted.mean() + r_sorted.std(ddof=1)*theo_q.max()],\n                          mode=\"lines\", name=\"Reference line\"))\nfig2.update_layout(title=\"Normal Q-Q Plot of Residuals\",\n                   xaxis_title=\"Theoretical Quantiles\",\n                   yaxis_title=\"Sample Quantiles\",\n                   width=800, height=600)\n\nfig2.show()\n\n                            \n                                            \n\n\n\nfrom statsmodels.stats.diagnostic import het_breuschpagan, het_white, normal_ad\nfrom statsmodels.stats.stattools import durbin_watson, jarque_bera\n\nbp_lm, bp_lm_p, bp_f, bp_f_p = het_breuschpagan(resid, model.model.exog)\nw_lm, w_lm_p, w_f, w_f_p = het_white(resid, model.model.exog)\n\n# 정규성: Jarque-Bera, Anderson-Darling\njb_stat, jb_p, skew, kurt = jarque_bera(resid)\nad_stat, ad_p = normal_ad(resid)\n\n# 독립성 참고: Durbin-Watson\ndw = durbin_watson(resid)\n\n#bp_f_p, w_f_p, jb_p, ad_p, dw\n\nfrom scipy.stats import shapiro\n\n#w_stat, p_val = shapiro(model.resid)\n#w_stat, p_val\n\n\n\n\n\n\n\n\n\n\n\n\n\n검정법\nStatistic\np-value\nConclusion (α=0.05)\n\n\n\n\nBreusch–Pagan (F)\n23.49\n5.01e-16\n등분산성 기각 (이분산 존재)\n\n\nWhite (F)\n35.18\n1.70e-34\n등분산성 기각 (이분산 존재)\n\n\nShapiro–Wilk\n0.82\n5.90-e15\n정규성 기각 (비정규)\n\n\nDurbin–Watson\n1.79\n\n2에 비교적 근접(강한 자기상관 징후는 크지 않음)\n\n\n\n\n1 잔차 및 Q-Q plot을 확인한 결과 이분산성은 확인되었으나, 정규성은 크게 위배되지 않는 것 처럼 보였음….\n2 그 후에 추가적으로 정규성 검정에 활용되는 검정법들 적용했더니, 이상점 등으로 인해 정규성 가정을 기각한 것 같음.\n3 자기상관검정인 더비왓슨 검정 결과 통계량이 2에 비교적 근접하여 강한 자기상관 징후는 크지 않는다고 해석할 수 있음.\n결론: 이분산성은 유의하게 확인되었고, 정규성은 그림상 크게 문제 없어 보였지만 추가 검정에서 이상점 영향으로 기각되었다. 반면 Durbin–Watson 값이 2에 가까워 강한 자기상관 징후는 크지 않다.\n\n\n\n\n\n이상점이 존재하는가?\n\n\n\nimport numpy as np\nimport pandas as pd\nfrom statsmodels.stats.outliers_influence import OLSInfluence\n\ninfl = OLSInfluence(model)\n\nstud_resid = infl.resid_studentized_internal\n\n\nidx_out = np.where(np.abs(stud_resid) &gt; 3)[0]\n\noutlier_df = df.iloc[idx_out][[\"Name\", \"Theme\", \"Year\", \"Pieces\", \"Price\"]].copy()\noutlier_df[\"stud_resid\"] = stud_resid[idx_out]\n\noutlier_df = outlier_df.reindex(outlier_df[\"stud_resid\"].abs().sort_values(ascending=False).index)\n\n#outlier_df\n\n\nimport numpy as np\nimport plotly.express as px\n\nplot_df = df.copy()\nplot_df[\"obs\"] = plot_df.index\nplot_df[\"stud_resid\"] = stud_resid\nplot_df[\"outlier\"] = np.where(np.abs(plot_df[\"stud_resid\"]) &gt; 3, \"Outlier\", \"Normal\")\n\nfig = px.scatter(\n    plot_df,\n    x=\"obs\",\n    y=\"stud_resid\",\n    color=\"outlier\",\n    color_discrete_map={\"Normal\": \"blue\", \"Outlier\": \"red\"},  # 핵심\n    hover_data=[\"Name\", \"Theme\", \"Year\", \"Pieces\", \"Price\"],\n    title=\"Studentized Residual Plot (Outliers in Red)\"\n)\n\nfig.add_hline(y=0, line_width=1)\nfig.add_hline(y=2, line_dash=\"dash\", line_width=1)\nfig.add_hline(y=-2, line_dash=\"dash\", line_width=1)\nfig.add_hline(y=3, line_dash=\"dot\", line_width=1)\nfig.add_hline(y=-3, line_dash=\"dot\", line_width=1)\n\n\noutliers_only = plot_df[plot_df[\"outlier\"] == \"Outlier\"]\nfig.add_scatter(\n    x=outliers_only[\"obs\"],\n    y=outliers_only[\"stud_resid\"],\n    mode=\"markers+text\",\n    text=outliers_only[\"Name\"],\n    textposition=\"top center\",\n    marker=dict(size=10, color=\"red\"),\n    showlegend=False\n)\n\nfig.update_layout(width=800, height=600,\n                  xaxis_title=\"Observation Index\",\n                  yaxis_title=\"Studentized Residual\")\nfig.show()\n\n                            \n                                            \n\n\n1 이상치 판별 기준: studentized residual\n\\[ e_i = y_i - \\hat{y}_i,  \\qquad  t_i = \\frac{e_i}{\\hat{\\sigma}\\sqrt{1-h_{ii}}}\\]\n\\[|t_i| &gt; 3 \\ \\Rightarrow\\ \\text{이상치(outlier) 후보}\\]\n\n\n\n\n\n\n\n\n\n\n\n\nObs (index)\nName\nTheme\nYear\nPieces\nPrice\nStudentized Residual\n\n\n\n\n124\nHulkbuster\nMarvel Super Heroes\n2022\n4,049\n550.0\n8.2\n\n\n95\nThe Justifier\nStar Wars\n2022\n1,022\n170.0\n3.7\n\n\n52\nRepublic Gunship\nStar Wars\n2021\n3,292\n400.0\n3.5\n\n\n103\nThe Razor Crest\nStar Wars\n2022\n6,187\n600.0\n-3.4\n\n\n\n\n\n\n\n\n지랫대점이 존재하는가?\n\n\n1 지렛대값(leverae)은 \\(H\\)의 대각원소 값이다.\n\\[H = X(X^{\\top X})^{-1}X^{TT} \\rightarrow h_{ii}\\]\n2 지렛대점 후보 판별 기준\n\\[h_{ii} &gt; 2\\bar h = 2\\times \\frac{p+1}{n}\\]\n\\[p: \\text{설병변수 개수}\\]\n3 값 대입 후 계산\n\\[h_{ii} &gt; 2\\bar h = 2\\times \\frac{p+1}{n} =  2\\times \\frac{5}{212} \\approx  0.0472\\]\n즉,\n\\[h_{ii} &gt; 0.0472 \\rightarrow \\text{leverage point 후보}\\]\n\n\ninfluence = model.get_influence()\nhii = influence.hat_matrix_diag\n\n\nn = int(model.nobs)\np1 = model.model.exog.shape[1]   \nhbar = p1 / n\ncutoff = 2 * hbar\n\n\nidx_lev = np.where(hii &gt; cutoff)[0]\n\n\nlev_df = df.iloc[idx_lev][[\"Name\", \"Theme\", \"Year\", \"Pieces\", \"Price\"]].copy()\nlev_df[\"hii\"] = hii[idx_lev]\nlev_df = lev_df.sort_values(\"hii\", ascending=False)\n\n\n\n\nplot_df = df.copy()\nplot_df[\"obs\"] = plot_df.index\nplot_df[\"hii\"] = hii\nplot_df[\"leverage_flag\"] = np.where(plot_df[\"hii\"] &gt; cutoff, \"Leverage\", \"Normal\")\n\nfig = px.scatter(\n    plot_df,\n    x=\"obs\",\n    y=\"hii\",\n    color=\"leverage_flag\",\n    color_discrete_map={\"Normal\": \"blue\", \"Leverage\": \"red\"},\n    hover_data=[\"Name\", \"Theme\", \"Year\", \"Pieces\", \"Price\"],\n    title=\"Leverage Plot (h_ii)\"\n)\n\nfig.add_hline(y=cutoff, line_dash=\"dash\", line_width=1)\n\nfig.update_layout(\n    width=800,\n    height=600,\n    xaxis_title=\"Observation Index\",\n    yaxis_title=\"h_ii (Leverage)\"\n)\n\nfig.show()\n\n                            \n                                            \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nObs (index)\nName\nTheme\nYear\nPieces\nPrice\n(h_{ii})\n\n\n\n\n103\nThe Razor Crest\nStar Wars\n2022\n6,187\n599.99\n0.28\n\n\n148\nHogwarts Express - Collectors’ Edition\nHarry Potter\n2022\n5,129\n499.99\n0.23\n\n\n124\nHulkbuster\nMarvel Super Heroes\n2022\n4,049\n549.99\n0.13\n\n\n129\nBlack Panther\nMarvel Super Heroes\n2022\n2,961\n349.99\n0.08\n\n\n52\nRepublic Gunship\nStar Wars\n2021\n3,292\n399.99\n0.08\n\n\n…\n…\n…\n…\n…\n…\n…\n\n\n\n\n위 기준을 적용한 결과 총 25개의 leverage point가 관측되었음.\n\n\n\n\n\n영향점이 존재하는가?\n\n\n1 cook’s Distance \\(D_i\\) : 관측치 \\(i\\)를 제거했을 때 적합값 전체가 얼마나 변하는지…\n\n만약 \\(D_i\\)가 충분히 크면 영향점 후보!\n\n2 적용\n\\[D(i) = \\frac{h_{ii}}{1-h_{ii}} \\cdot \\frac{1}{p+1} =\\frac{r_{i}^2}{p+1}\\,\\,\\times\\,\\,\\frac{h_{ii} e^{2}_i}{\\hat{\\sigma}^2(1-h_{ii})^2}\\]\n따라서, 영향점 판단 기준을 다음과 같이 정의\n\\[D(i) \\geq   F_{0.05}(p+1,\\,\\, n-p-1)=F_{0.05}(5, 207) \\approx 2.2877\\]\n\nfrom scipy.stats import f\n\n\ninfl = OLSInfluence(model)\ncooks_d = infl.cooks_distance[0]\nn = int(model.nobs)\np = int(model.df_model)        \ndfn = p + 1                    \ndfd = n - p - 1               \n\ncutoff = f.ppf(0.95, dfn, dfd)  #\n\nidx_inf = np.where(cooks_d &gt;= cutoff)[0]\n\ninf_df = df.iloc[idx_inf][[\"Name\", \"Theme\", \"Year\", \"Pieces\", \"Price\"]].copy()\ninf_df[\"cooks_d\"] = cooks_d[idx_inf]\ninf_df = inf_df.reindex(inf_df[\"cooks_d\"].sort_values(ascending=False).index)\n\n\ninf_df\n\n\n\n\n\n\n\n\nName\nTheme\nYear\nPieces\nPrice\ncooks_d\n\n\n\n\n\n\n\n\n\n이상점이 없음\n\n\n\n\n\n위에서 식별된 이상점, 지룃대점, 영향점을 제외하고 모형을 재적합시킨 후, 기존 모형과 비교하여라.\n\n\n\nimport numpy as np\nimport pandas as pd\nimport statsmodels.api as sm\n\n\nidx_out = [124, 95, 52, 103]\n\nidx_lev = [103, 148, 124, 129, 52, 132, 1, 143, 140, 205, 139, 207, 208, 147, 144,\n           210, 206, 146, 141, 211, 209, 150, 142, 145, 149]\n\ndrop_idx = sorted(set(idx_out).union(set(idx_lev)))\n\n\ndf2 = df.drop(index=drop_idx).copy()\n\n\ndf2[\"Theme\"] = df2[\"Theme\"].astype(\"category\")\n\ndf2[\"Theme\"] = df2[\"Theme\"].cat.set_categories(df[\"Theme\"].cat.categories)\n\nX2_theme = pd.get_dummies(df2[\"Theme\"], drop_first=True)\nX2 = pd.concat([df2[[\"Pieces\"]], X2_theme], axis=1).astype(float)\nX2 = sm.add_constant(X2, has_constant=\"add\")\n\ny2 = df2[\"Price\"].astype(float)\n\nmodel_refit = sm.OLS(y2, X2).fit()\n\n\ncompare = pd.DataFrame({\n    \"Full_coef\": model.params,\n    \"Refit_coef\": model_refit.params,\n    \"Diff(Refit-Full)\": model_refit.params - model.params\n})\n\nstats_compare = pd.DataFrame({\n    \"Metric\": [\"nobs\", \"RSS(SSE)\", \"df_resid\", \"MSE\", \"R2\", \"Adj_R2\"],\n    \"Full\": [model.nobs, model.ssr, model.df_resid, model.mse_resid, model.rsquared, model.rsquared_adj],\n    \"Refit\": [model_refit.nobs, model_refit.ssr, model_refit.df_resid, model_refit.mse_resid,\n              model_refit.rsquared, model_refit.rsquared_adj]\n})\n\n#compare, stats_compare\n\n결과 비교\n\n\n\nMetric\nFull model\nRefit model\nComment\n\n\n\n\nn\n212\n186\n26개 관측치 제거 후 재적합\n\n\nRSS (SSE)\n52952.736\n22676.910\nSSE 크게 감소\n\n\ndf(resid)\n207\n182\n\n\n\nMSE\n255.810\n124.598\n오차분산 추정치 감소\n\n\n\\(R^2\\)\n0.9595\n0.9227\nFull이 더 큼\n\n\n\\(R^2_{adj}\\)\n0.9587\n0.9215\nFull이 더 큼\n\n\n\n\n1 이상점·지렛대점을 제외하고 재적합한 결과, 잔차 제곱합과 MSE가 크게 감소하였다.\n2 반면 결정계수값들은 감소하였다.\n3 따라서 극단값 제거로 잔차 측면에서 모형의 안정성은 개선되었으나, 설명력은 다소 낮아졌다고 해석할 수 있다.",
     "crumbs": [
       "Posts",
-      "00. Intro"
+      "HW 02"
+    ]
+  },
+  {
+    "objectID": "posts/HW 02.html#section",
+    "href": "posts/HW 02.html#section",
+    "title": "HW 02",
+    "section": "",
+    "text": "부품 수를 \\(x\\)축으로 하고, 가격을 \\(y\\)축으로 하는 산점도를 그리시오. 단 각 점의 색상은 테마별로 다르게 표시하시오.\n\n\n\ndf = pd.read_csv('data/lego2.csv')\n\n\nfig = df.plot(\n    kind = 'scatter',\n    x = 'Pieces',\n    y = 'Price',\n    color = 'Theme',\n    opacity = 0.75,\n    title = 'Price vs Pieces (colored by Theme)'\n)\n\nfig.update_layout(\n    xaxis_title = 'Pieces',\n    yaxis_title = 'Price (USD)',\n    legend_title = 'Theme',\n    width = 800,\n    height = 600\n)\n\nfig.show()",
+    "crumbs": [
+      "Posts",
+      "HW 02"
+    ]
+  },
+  {
+    "objectID": "posts/HW 02.html#section-1",
+    "href": "posts/HW 02.html#section-1",
+    "title": "HW 02",
+    "section": "",
+    "text": "출시 가격을 예측하기 위한 모형을 정의하여라. (단, 범주형 변수인 테마를 처리하기 위한 가변수 설정을 포함하되, 변수 간 교호작용은 고려하지 않음.)\n\n\n데이터 \\(i = 1,2 \\dots n\\)에 대하여\n\n\\(Y_i = \\text{Price (달러)}\\)\n\\(x_i = \\text{Pieces (부품 수)}\\)\nTheme는 범주가 \\(K\\)개인 범주형 변수라고 하자.\n\n기준 테마(reference themes)를 하나 정하여 (예: Theme의 첫 범주 또는 가장 빈도가 큰 범주) 이를 \\(T_1\\)이라 하고, 나머지 테마를 \\(T_2,\\dots T_K\\)라고 하자.\n그 때, 교호작용 없이 Theme를 더미변수로 포함한 선형회귀모형은\n\\[Y_i = \\beta_0 + \\beta_1x_i + \\sum_{k=2}^{K} \\gamma_{k}1(\\text{Theme}_i = T_k) + \\epsilon_i, \\quad i = 1, 2\\dots n\\]\n\n여기서 \\(1(\\text{Theme}_i) = T_k\\)는 관측치 “i의 테마가 \\(T_k\\)이면, 1아니면 0”인 가변수이다.\n\\(\\gamma_k\\,\\,(k\\geq 2):\\) Theme가 \\(T_K\\)일 때 절편 이동량\n\n즉, 같은 Pieces 값에서 \\(T_k\\) 테마는 기준 테마 \\(T_1\\)에 비해 평균 가격이 \\(\\gamma_k\\)만큼 높거나, 낮다는 뜻이다.\n\n\n\n해당 모형은 테마별로 절편만 달리지고(Pieces에 대한 기울기 \\(\\beta_1\\)는 공통), 즉 테마 간 부품 가격 증가율(=기울기)은 동일하다고 가정한다.\n\n\ndf[\"Theme\"] = df[\"Theme\"].astype(\"category\")\n\nref_theme = df[\"Theme\"].cat.categories[0]\n\nX_theme = pd.get_dummies(df[\"Theme\"], drop_first=True)\n\nX = pd.concat([df[[\"Pieces\"]], X_theme], axis=1)\n\n#ref_theme, X.head()",
+    "crumbs": [
+      "Posts",
+      "HW 02"
+    ]
+  },
+  {
+    "objectID": "posts/HW 02.html#section-2",
+    "href": "posts/HW 02.html#section-2",
+    "title": "HW 02",
+    "section": "",
+    "text": "회귀 모형을 적합하고, 추정된 회귀 계수들의 유의성 검정을 수행하시오.\n\n\n(1) 1-(2)에서 정의했던 모형 활용\n기준 테마(reference)를 Friends로 두고 (더미에서 제외), 다음 모형을 적합한다.\n\\[\\epsilon_i \\stackrel{\\text{i.i.d.}}{\\sim} \\mathcal{N}(0,\\sigma^2), \\quad i=1,\\dots n\\]\n\\[\\text{Price}_i = \\beta_0 + \\beta_1 \\text{Pieces}_i + \\gamma_2 1(\\text{Theme} = \\text{Harry Potter}) + \\gamma_3 1(\\text{Theme} = \\text{Marvel Super Heroes}) + \\gamma_4 1(\\text{Theme} = \\text{Star Wars}) + \\epsilon_i\\]\n(2) 추정된 회귀계수 및 개별 유의성 검정(t-test)\n각 회귀계수에 대하여\n\\[H_0: \\text{해당 변수의 회귀계수} = 0 \\quad vs \\quad H_1: \\text{해당 변수의 회귀계수} \\neq 0\\]\n위 가설에 대한 양측 \\(t\\)-검정을 유의수준 \\(\\alpha = 0.05\\)에서 수행한 결과이다.\n(표본크기 \\(n = 212\\), \\(df\\)(자유도) \\(n-(p+1) = 207\\) )\n\n\n\n\n\n\n\n\n\n\n\n계수\n추정치\n표준오차\nt\np-value\n결론(α=0.05)\n\n\n\n\nIntercept (\\(\\beta_0\\))\n-1.32\n1.80\n-0.73\n0.46\n유의하지 않음\n\n\nPieces (\\(\\beta_1\\))\n0.10\n0.002\n68.35\n&lt; 2e-16\n유의\n\n\nHarry Potter (\\(\\gamma_{HP}\\))\n2.85\n3.97\n0.72\n0.47\n유의하지 않음\n\n\nMarvel Super Heroes (\\(\\gamma_{MSH}\\))\n11.03\n2.95\n3.75\n0.00\n유의\n\n\nStar Wars (\\(\\gamma_{SW}\\))\n7.89\n2.73\n2.89\n0.004\n유의\n\n\n\n(3) summary\n\nPieces의 회귀계수 \\(\\beta_1\\)는 매우 유의미하며, 부품 수가 증가할수록 평균 가격이 증가한다고 볼 수 있다.\n테마 효과는 기준(Friends) 대비로 해석되며, Marvel Super Heroes, Star Wars는 Friends 대비 유의한 절편 차이가 관찰되었다.\nHary Potter는 Friends대비 차이가 통계적으로 유의하지 않았다.\n\n\nimport statsmodels.api as sm\n\n## 반응변수 y 설정\nX = X.astype(float)\n\n## X에 상수항(intercept)만 추가해서 회귀모형 적합\n\nX1 = sm.add_constant(X, has_constant=\"add\")\n\ny = df[\"Price\"]\nmodel = sm.OLS(y, X1).fit()\n\n#print(model.summary())",
+    "crumbs": [
+      "Posts",
+      "HW 02"
+    ]
+  },
+  {
+    "objectID": "posts/HW 02.html#section-3",
+    "href": "posts/HW 02.html#section-3",
+    "title": "HW 02",
+    "section": "",
+    "text": "추정된 회귀계수의 의미를 설명하여라.\n\n\n1 \\(\\beta_0\\) (절편)\n\n기준 테마 \\(T_1\\)에서, \\(\\text{Pieces}=0\\)일 때의 평균 가격을 의미한다.\n실제로 Pieces가 0인 제품은 거의 없으므로, \\(\\beta_0\\)ㅇ 자체의 어떤 의미를 가지는 해석은 제한적이다.\n\n2 \\(\\beta_1\\): Pieces의 기울기\n\n모든 테마에서 공통으로, Piece가 1증가할 때 평균 가격이 \\(\\beta_1\\)만큼 증가한다고 해석할 수 있다.\n교호작용을 포함하지 않았으므로, 테마별로 기울기가 달라지이 않는다는 가정을 내포한다.\n\n3 \\(\\gamma_k\\)\n\n\\(\\gamma_k\\)는 \\(T_k\\)일 때, 기준 테마 \\(T_1\\)에 비해 평균 가격이 얼마나 달라지는 지를 나타내는 절편의 이동량(shift)이다.\n좀더 상세하게 말하면,\n\n\\[E(Y | x, \\text{Theme} = T_{k}) - E(Y| x, \\text{Theme} = T_1) = \\gamma_k\\]\n\n이므로, 같은 Pieces(\\(x\\))에서 기준 테마 대비 평균 가격 차이(달러) 로 해석한다.\n\\(\\gamma &gt; 0\\)이면 \\(T_L\\)는 기준 테마보다 더 비싼, 반대의 경우 더 저렴함을 의미한다.",
+    "crumbs": [
+      "Posts",
+      "HW 02"
+    ]
+  },
+  {
+    "objectID": "posts/HW 02.html#section-4",
+    "href": "posts/HW 02.html#section-4",
+    "title": "HW 02",
+    "section": "",
+    "text": "테마가 출시 가격에 통계적으로 유의미한 영향을 미친다고 할 수 있는가?\n(여러가지 근거를 바탕으로 설명하여라.)\n\n\n1 비교할 두 모형\n\n축소모형(Reduced model): Piece만 사용\n\n\\[M_{R}: \\quad Y_i = \\beta_0 + \\beta_1 \\times \\text{Pieces}_i +\\epsilon\\]\n\nFull model: Pieces + Theme\n\n\\[M_{F}: \\quad Y_i = \\beta_0 + \\beta_1 \\times \\text{Pieces}_i + \\sum_{k=2}^{K} \\gamma_{k} 1(\\text{Theme}_i = T_{K})+\\epsilon_i \\]\n2 검정 가설\nTheme가 모형에 추가로 기여하는지를 보는 것이므로,\n\\[H_0: \\gamma_k = 0 \\quad vs \\quad H_1: \\text{적어도 하나의 } \\gamma_k \\neq 0\\]\n3 부분 F-검정 결론\n\n부분 F-검정에서 p-value가 0.05 미만이면, Theme 더미들을 추가하는 것이 SSE를 유의미하게 감소시키므로 Theme는 Price에 통계적으로 유의미한 영향을 준다고 결론 내릴 수 있다.\n\n\n\n\n\n\n\n\n\n\n\nModel\nSSE (RSS)\ndf\nMSE\n비교\n\n\n\n\nReduced: Price ~ Pieces\n57,322\n210\n273\n\n\n\nFull: Price ~ Pieces + Theme\n52,952\n207\n256\n\n\n\nPartial F\n5.6934\n(q=3)\n\np-value = 0.000916\n\n\n\n\\[F  = \\frac{(Rss_R-RSS_F)/q}{RSS_{F}/df_{f}} = 5.369...\\]\n\\[p_value = P(F_{3,207} \\geq 5.6394) = 0.000916\\]\n\n결론: p-value&lt;0.05이므로 Theme는 Price에 통계적으로 유의미한 영향을 미친다.\n\n\nimport statsmodels.api as sm\nfrom statsmodels.stats.anova import anova_lm\n\nmodel_full = model  \n\nX_reduced = sm.add_constant(df[[\"Pieces\"]].astype(float), has_constant=\"add\")\nmodel_reduced = sm.OLS(df[\"Price\"], X_reduced).fit()\n\nanova_res = anova_lm(model_reduced, model_full)\n#anova_res",
+    "crumbs": [
+      "Posts",
+      "HW 02"
+    ]
+  },
+  {
+    "objectID": "posts/HW 02.html#section-5",
+    "href": "posts/HW 02.html#section-5",
+    "title": "HW 02",
+    "section": "",
+    "text": "잔차검정을 수행하고, 선형 회귀의 기본 가정을 잘 만족하는지를 확인하여라.\n\n\n\nResiduals vs FittedNormal Q-Q plot\n\n\n\n# 1) 잔차/적합값\nresid = model.resid\nfitted = model.fittedvalues\n\n# (A) Residuals vs Fitted (Theme 색칠까지 하면 발표에 좋음)\ntmp = df.loc[fitted.index, [\"Theme\"]].copy()\ntmp[\"Fitted\"] = fitted\ntmp[\"Residual\"] = resid\n\nfig1 = px.scatter(tmp, x=\"Fitted\", y=\"Residual\", color=\"Theme\", opacity=0.75,\n                  title=\"Residuals vs Fitted (colored by Theme)\")\nfig1.add_hline(y=0, line_width=1)\nfig1.update_layout(width=800, height=600)\nfig1.show()\n\n                            \n                                            \n\n\n\n\n\nimport scipy.stats as st\n\nr = np.asarray(resid)\nr_sorted = np.sort(r)\nn = len(r_sorted)\ntheo_q = st.norm.ppf((np.arange(1, n+1) - 0.5) / n)\n\nfig2 = go.Figure()\nfig2.add_trace(go.Scatter(x=theo_q, y=r_sorted, mode=\"markers\", name=\"Residuals\"))\n# 기준선(대략): 기울기=표준편차, 절편=평균\nfig2.add_trace(go.Scatter(x=[theo_q.min(), theo_q.max()],\n                          y=[r_sorted.mean() + r_sorted.std(ddof=1)*theo_q.min(),\n                             r_sorted.mean() + r_sorted.std(ddof=1)*theo_q.max()],\n                          mode=\"lines\", name=\"Reference line\"))\nfig2.update_layout(title=\"Normal Q-Q Plot of Residuals\",\n                   xaxis_title=\"Theoretical Quantiles\",\n                   yaxis_title=\"Sample Quantiles\",\n                   width=800, height=600)\n\nfig2.show()\n\n                            \n                                            \n\n\n\nfrom statsmodels.stats.diagnostic import het_breuschpagan, het_white, normal_ad\nfrom statsmodels.stats.stattools import durbin_watson, jarque_bera\n\nbp_lm, bp_lm_p, bp_f, bp_f_p = het_breuschpagan(resid, model.model.exog)\nw_lm, w_lm_p, w_f, w_f_p = het_white(resid, model.model.exog)\n\n# 정규성: Jarque-Bera, Anderson-Darling\njb_stat, jb_p, skew, kurt = jarque_bera(resid)\nad_stat, ad_p = normal_ad(resid)\n\n# 독립성 참고: Durbin-Watson\ndw = durbin_watson(resid)\n\n#bp_f_p, w_f_p, jb_p, ad_p, dw\n\nfrom scipy.stats import shapiro\n\n#w_stat, p_val = shapiro(model.resid)\n#w_stat, p_val\n\n\n\n\n\n\n\n\n\n\n\n\n\n검정법\nStatistic\np-value\nConclusion (α=0.05)\n\n\n\n\nBreusch–Pagan (F)\n23.49\n5.01e-16\n등분산성 기각 (이분산 존재)\n\n\nWhite (F)\n35.18\n1.70e-34\n등분산성 기각 (이분산 존재)\n\n\nShapiro–Wilk\n0.82\n5.90-e15\n정규성 기각 (비정규)\n\n\nDurbin–Watson\n1.79\n\n2에 비교적 근접(강한 자기상관 징후는 크지 않음)\n\n\n\n\n1 잔차 및 Q-Q plot을 확인한 결과 이분산성은 확인되었으나, 정규성은 크게 위배되지 않는 것 처럼 보였음….\n2 그 후에 추가적으로 정규성 검정에 활용되는 검정법들 적용했더니, 이상점 등으로 인해 정규성 가정을 기각한 것 같음.\n3 자기상관검정인 더비왓슨 검정 결과 통계량이 2에 비교적 근접하여 강한 자기상관 징후는 크지 않는다고 해석할 수 있음.\n결론: 이분산성은 유의하게 확인되었고, 정규성은 그림상 크게 문제 없어 보였지만 추가 검정에서 이상점 영향으로 기각되었다. 반면 Durbin–Watson 값이 2에 가까워 강한 자기상관 징후는 크지 않다.",
+    "crumbs": [
+      "Posts",
+      "HW 02"
+    ]
+  },
+  {
+    "objectID": "posts/HW 02.html#section-6",
+    "href": "posts/HW 02.html#section-6",
+    "title": "HW 02",
+    "section": "",
+    "text": "이상점이 존재하는가?\n\n\n\nimport numpy as np\nimport pandas as pd\nfrom statsmodels.stats.outliers_influence import OLSInfluence\n\ninfl = OLSInfluence(model)\n\nstud_resid = infl.resid_studentized_internal\n\n\nidx_out = np.where(np.abs(stud_resid) &gt; 3)[0]\n\noutlier_df = df.iloc[idx_out][[\"Name\", \"Theme\", \"Year\", \"Pieces\", \"Price\"]].copy()\noutlier_df[\"stud_resid\"] = stud_resid[idx_out]\n\noutlier_df = outlier_df.reindex(outlier_df[\"stud_resid\"].abs().sort_values(ascending=False).index)\n\n#outlier_df\n\n\nimport numpy as np\nimport plotly.express as px\n\nplot_df = df.copy()\nplot_df[\"obs\"] = plot_df.index\nplot_df[\"stud_resid\"] = stud_resid\nplot_df[\"outlier\"] = np.where(np.abs(plot_df[\"stud_resid\"]) &gt; 3, \"Outlier\", \"Normal\")\n\nfig = px.scatter(\n    plot_df,\n    x=\"obs\",\n    y=\"stud_resid\",\n    color=\"outlier\",\n    color_discrete_map={\"Normal\": \"blue\", \"Outlier\": \"red\"},  # 핵심\n    hover_data=[\"Name\", \"Theme\", \"Year\", \"Pieces\", \"Price\"],\n    title=\"Studentized Residual Plot (Outliers in Red)\"\n)\n\nfig.add_hline(y=0, line_width=1)\nfig.add_hline(y=2, line_dash=\"dash\", line_width=1)\nfig.add_hline(y=-2, line_dash=\"dash\", line_width=1)\nfig.add_hline(y=3, line_dash=\"dot\", line_width=1)\nfig.add_hline(y=-3, line_dash=\"dot\", line_width=1)\n\n\noutliers_only = plot_df[plot_df[\"outlier\"] == \"Outlier\"]\nfig.add_scatter(\n    x=outliers_only[\"obs\"],\n    y=outliers_only[\"stud_resid\"],\n    mode=\"markers+text\",\n    text=outliers_only[\"Name\"],\n    textposition=\"top center\",\n    marker=dict(size=10, color=\"red\"),\n    showlegend=False\n)\n\nfig.update_layout(width=800, height=600,\n                  xaxis_title=\"Observation Index\",\n                  yaxis_title=\"Studentized Residual\")\nfig.show()\n\n                            \n                                            \n\n\n1 이상치 판별 기준: studentized residual\n\\[ e_i = y_i - \\hat{y}_i,  \\qquad  t_i = \\frac{e_i}{\\hat{\\sigma}\\sqrt{1-h_{ii}}}\\]\n\\[|t_i| &gt; 3 \\ \\Rightarrow\\ \\text{이상치(outlier) 후보}\\]\n\n\n\n\n\n\n\n\n\n\n\n\nObs (index)\nName\nTheme\nYear\nPieces\nPrice\nStudentized Residual\n\n\n\n\n124\nHulkbuster\nMarvel Super Heroes\n2022\n4,049\n550.0\n8.2\n\n\n95\nThe Justifier\nStar Wars\n2022\n1,022\n170.0\n3.7\n\n\n52\nRepublic Gunship\nStar Wars\n2021\n3,292\n400.0\n3.5\n\n\n103\nThe Razor Crest\nStar Wars\n2022\n6,187\n600.0\n-3.4",
+    "crumbs": [
+      "Posts",
+      "HW 02"
+    ]
+  },
+  {
+    "objectID": "posts/HW 02.html#section-7",
+    "href": "posts/HW 02.html#section-7",
+    "title": "HW 02",
+    "section": "",
+    "text": "지랫대점이 존재하는가?\n\n\n1 지렛대값(leverae)은 \\(H\\)의 대각원소 값이다.\n\\[H = X(X^{\\top X})^{-1}X^{TT} \\rightarrow h_{ii}\\]\n2 지렛대점 후보 판별 기준\n\\[h_{ii} &gt; 2\\bar h = 2\\times \\frac{p+1}{n}\\]\n\\[p: \\text{설병변수 개수}\\]\n3 값 대입 후 계산\n\\[h_{ii} &gt; 2\\bar h = 2\\times \\frac{p+1}{n} =  2\\times \\frac{5}{212} \\approx  0.0472\\]\n즉,\n\\[h_{ii} &gt; 0.0472 \\rightarrow \\text{leverage point 후보}\\]\n\n\ninfluence = model.get_influence()\nhii = influence.hat_matrix_diag\n\n\nn = int(model.nobs)\np1 = model.model.exog.shape[1]   \nhbar = p1 / n\ncutoff = 2 * hbar\n\n\nidx_lev = np.where(hii &gt; cutoff)[0]\n\n\nlev_df = df.iloc[idx_lev][[\"Name\", \"Theme\", \"Year\", \"Pieces\", \"Price\"]].copy()\nlev_df[\"hii\"] = hii[idx_lev]\nlev_df = lev_df.sort_values(\"hii\", ascending=False)\n\n\n\n\nplot_df = df.copy()\nplot_df[\"obs\"] = plot_df.index\nplot_df[\"hii\"] = hii\nplot_df[\"leverage_flag\"] = np.where(plot_df[\"hii\"] &gt; cutoff, \"Leverage\", \"Normal\")\n\nfig = px.scatter(\n    plot_df,\n    x=\"obs\",\n    y=\"hii\",\n    color=\"leverage_flag\",\n    color_discrete_map={\"Normal\": \"blue\", \"Leverage\": \"red\"},\n    hover_data=[\"Name\", \"Theme\", \"Year\", \"Pieces\", \"Price\"],\n    title=\"Leverage Plot (h_ii)\"\n)\n\nfig.add_hline(y=cutoff, line_dash=\"dash\", line_width=1)\n\nfig.update_layout(\n    width=800,\n    height=600,\n    xaxis_title=\"Observation Index\",\n    yaxis_title=\"h_ii (Leverage)\"\n)\n\nfig.show()\n\n                            \n                                            \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nObs (index)\nName\nTheme\nYear\nPieces\nPrice\n(h_{ii})\n\n\n\n\n103\nThe Razor Crest\nStar Wars\n2022\n6,187\n599.99\n0.28\n\n\n148\nHogwarts Express - Collectors’ Edition\nHarry Potter\n2022\n5,129\n499.99\n0.23\n\n\n124\nHulkbuster\nMarvel Super Heroes\n2022\n4,049\n549.99\n0.13\n\n\n129\nBlack Panther\nMarvel Super Heroes\n2022\n2,961\n349.99\n0.08\n\n\n52\nRepublic Gunship\nStar Wars\n2021\n3,292\n399.99\n0.08\n\n\n…\n…\n…\n…\n…\n…\n…\n\n\n\n\n위 기준을 적용한 결과 총 25개의 leverage point가 관측되었음.",
+    "crumbs": [
+      "Posts",
+      "HW 02"
+    ]
+  },
+  {
+    "objectID": "posts/HW 02.html#section-8",
+    "href": "posts/HW 02.html#section-8",
+    "title": "HW 02",
+    "section": "",
+    "text": "영향점이 존재하는가?\n\n\n1 cook’s Distance \\(D_i\\) : 관측치 \\(i\\)를 제거했을 때 적합값 전체가 얼마나 변하는지…\n\n만약 \\(D_i\\)가 충분히 크면 영향점 후보!\n\n2 적용\n\\[D(i) = \\frac{h_{ii}}{1-h_{ii}} \\cdot \\frac{1}{p+1} =\\frac{r_{i}^2}{p+1}\\,\\,\\times\\,\\,\\frac{h_{ii} e^{2}_i}{\\hat{\\sigma}^2(1-h_{ii})^2}\\]\n따라서, 영향점 판단 기준을 다음과 같이 정의\n\\[D(i) \\geq   F_{0.05}(p+1,\\,\\, n-p-1)=F_{0.05}(5, 207) \\approx 2.2877\\]\n\nfrom scipy.stats import f\n\n\ninfl = OLSInfluence(model)\ncooks_d = infl.cooks_distance[0]\nn = int(model.nobs)\np = int(model.df_model)        \ndfn = p + 1                    \ndfd = n - p - 1               \n\ncutoff = f.ppf(0.95, dfn, dfd)  #\n\nidx_inf = np.where(cooks_d &gt;= cutoff)[0]\n\ninf_df = df.iloc[idx_inf][[\"Name\", \"Theme\", \"Year\", \"Pieces\", \"Price\"]].copy()\ninf_df[\"cooks_d\"] = cooks_d[idx_inf]\ninf_df = inf_df.reindex(inf_df[\"cooks_d\"].sort_values(ascending=False).index)\n\n\ninf_df\n\n\n\n\n\n\n\n\nName\nTheme\nYear\nPieces\nPrice\ncooks_d\n\n\n\n\n\n\n\n\n\n이상점이 없음",
+    "crumbs": [
+      "Posts",
+      "HW 02"
+    ]
+  },
+  {
+    "objectID": "posts/HW 02.html#section-9",
+    "href": "posts/HW 02.html#section-9",
+    "title": "HW 02",
+    "section": "",
+    "text": "위에서 식별된 이상점, 지룃대점, 영향점을 제외하고 모형을 재적합시킨 후, 기존 모형과 비교하여라.\n\n\n\nimport numpy as np\nimport pandas as pd\nimport statsmodels.api as sm\n\n\nidx_out = [124, 95, 52, 103]\n\nidx_lev = [103, 148, 124, 129, 52, 132, 1, 143, 140, 205, 139, 207, 208, 147, 144,\n           210, 206, 146, 141, 211, 209, 150, 142, 145, 149]\n\ndrop_idx = sorted(set(idx_out).union(set(idx_lev)))\n\n\ndf2 = df.drop(index=drop_idx).copy()\n\n\ndf2[\"Theme\"] = df2[\"Theme\"].astype(\"category\")\n\ndf2[\"Theme\"] = df2[\"Theme\"].cat.set_categories(df[\"Theme\"].cat.categories)\n\nX2_theme = pd.get_dummies(df2[\"Theme\"], drop_first=True)\nX2 = pd.concat([df2[[\"Pieces\"]], X2_theme], axis=1).astype(float)\nX2 = sm.add_constant(X2, has_constant=\"add\")\n\ny2 = df2[\"Price\"].astype(float)\n\nmodel_refit = sm.OLS(y2, X2).fit()\n\n\ncompare = pd.DataFrame({\n    \"Full_coef\": model.params,\n    \"Refit_coef\": model_refit.params,\n    \"Diff(Refit-Full)\": model_refit.params - model.params\n})\n\nstats_compare = pd.DataFrame({\n    \"Metric\": [\"nobs\", \"RSS(SSE)\", \"df_resid\", \"MSE\", \"R2\", \"Adj_R2\"],\n    \"Full\": [model.nobs, model.ssr, model.df_resid, model.mse_resid, model.rsquared, model.rsquared_adj],\n    \"Refit\": [model_refit.nobs, model_refit.ssr, model_refit.df_resid, model_refit.mse_resid,\n              model_refit.rsquared, model_refit.rsquared_adj]\n})\n\n#compare, stats_compare\n\n결과 비교\n\n\n\nMetric\nFull model\nRefit model\nComment\n\n\n\n\nn\n212\n186\n26개 관측치 제거 후 재적합\n\n\nRSS (SSE)\n52952.736\n22676.910\nSSE 크게 감소\n\n\ndf(resid)\n207\n182\n\n\n\nMSE\n255.810\n124.598\n오차분산 추정치 감소\n\n\n\\(R^2\\)\n0.9595\n0.9227\nFull이 더 큼\n\n\n\\(R^2_{adj}\\)\n0.9587\n0.9215\nFull이 더 큼\n\n\n\n\n1 이상점·지렛대점을 제외하고 재적합한 결과, 잔차 제곱합과 MSE가 크게 감소하였다.\n2 반면 결정계수값들은 감소하였다.\n3 따라서 극단값 제거로 잔차 측면에서 모형의 안정성은 개선되었으나, 설명력은 다소 낮아졌다고 해석할 수 있다.",
+    "crumbs": [
+      "Posts",
+      "HW 02"
+    ]
+  },
+  {
+    "objectID": "posts/HW 02.html#section-10",
+    "href": "posts/HW 02.html#section-10",
+    "title": "HW 02",
+    "section": "(1)",
+    "text": "(1)\n부품 수(Pieces)와 출시 가격(Price)의 산점도를 그리되, 테마별로 회귀직선을 각각 추가하시오. (즉, 테마별 단순선형회귀모형 적합 결과를 그림)\n\nsol\n\nfig = px.scatter(\n    df,\n    x=\"Pieces\",\n    y=\"Price\",\n    color=\"Theme\",\n    trendline=\"ols\",           # Theme별로 OLS 직선 자동 적합\n    opacity=0.75,\n    hover_data=[\"Name\", \"Year\"],\n    title=\"Price vs Pieces with Theme-wise Regression Lines\"\n)\n\nfig.update_layout(width=800, height=600,\n                  xaxis_title=\"Pieces\",\n                  yaxis_title=\"Price (USD)\")\nfig.show()",
+    "crumbs": [
+      "Posts",
+      "HW 02"
+    ]
+  },
+  {
+    "objectID": "posts/HW 02.html#section-11",
+    "href": "posts/HW 02.html#section-11",
+    "title": "HW 02",
+    "section": "(2)",
+    "text": "(2)\n부품 수와 테마사이의 교호작용을 포함한 회귀모형을 정의하고, 각 회귀계수가 의미하는 바를 구체적으로 서술하시오.\n\nsol\n\\[Y_i = \\beta_0 + \\beta_{1}x_i + \\sum_{k=2}^{K} \\gamma_k D_{ik}  + \\sum_{k=2}^{K}\\delta_{K}(x_{i}D_{ik}) + \\epsilon_i\\]\n\\[Y_{i} = \\text{price}, \\quad x_i  = \\text{Pieces}_i\\]\n\\[D_{ik} = 1(\\text{Theme}_i = T_{k})\\]\n\nX_inter = X_theme.mul(df[\"Pieces\"], axis=0)\nX_inter.columns = [f\"{c}:Pieces\" for c in X_inter.columns]\n\nX_int = pd.concat([X, X_inter], axis=1)\n#X_int.head()\n\n1 \\(\\beta_0\\) : 기준 테마 \\(T_1\\)에서 \\(x=0\\)일 때의 평균 가격(절편)\n2 \\(\\beta_1\\) : Pieces가 1 증가할 때 평균 가격 변화량\n3 \\(\\gamma_{k}\\,\\, (k \\geq 2)\\): \\(x\\)가 동일 할 때, 테마 \\(T_{k}\\)는 기준 테마 \\(T_1\\)에 비해 절편이 \\(\\gamma_k\\)만큼 이동\n4 \\(\\delta_k\\,\\,(k\\geq 2)\\): 테마 \\(T_k\\)의 기울기가 기준 테마의 기울기 \\(\\beta_1\\)에서 얼마나 달라지는지를 나타냄\n\\(\\to\\) 즉, 테마 \\(T_k\\)의 Pieces 기울기는: \\(\\beta_1 + \\delta_k\\)\n\n기준 테마 \\(T_1\\):\n\n\\[E(Y| x, T_1) = \\beta_0 + \\beta_1x\\]\n\n테마 \\(T_k(k\\geq 2)\\):\n\n\\[E(Y| x, T_{k}) = (\\beta_0 + \\gamma_k) + (\\beta_1 + \\delta_k)x\\]\n\n즉, \\(\\delta_k\\)는 “테마 \\(T_k\\)의 부품당 단가(기울기)가 기준 테마(\\(T_1\\))와 얼마나 다른가”를 정량화 한다.",
+    "crumbs": [
+      "Posts",
+      "HW 02"
+    ]
+  },
+  {
+    "objectID": "posts/HW 02.html#section-12",
+    "href": "posts/HW 02.html#section-12",
+    "title": "HW 02",
+    "section": "(3)",
+    "text": "(3)\n교호작용 모형을 적합하고, 전체 모형의 유의성과 교호작용 항들의 개별 유의성을 보고하시오.\n\nsol\n1 전체 모형 유의성(F-test)\n\\[F = 935.1, \\qquad \\text{p-value} = 3.03 \\times 10^{151}\\]\n\n\\(\\alpha = 0.05\\)에서 전체 모형의 통계적으로 유의미하다.\n\n즉, Price를 설명하는 데 교호작용을 포함한 모형이 통계적으로 유의함\n\n\n\nX_inter = X_theme.mul(df[\"Pieces\"], axis=0)\nX_inter.columns = [f\"{c}:Pieces\" for c in X_inter.columns]\n\nX_int = pd.concat([X, X_inter], axis=1)\n\n2 교호작용 항들의 개별 유의성(T-test)\n\\[H_0: \\delta_k =0 \\quad vs \\quad H_1: \\delta_k \\neq 0\\]\n\n\n\n\n\n\n\n\n\n\n\nTerm (Interaction)\nEstimate\nStd. Error\nt\np-value\nConclusion (α=0.05)\n\n\n\n\nHarry Potter × Pieces\n0.012\n0.005\n2.50\n0.0131\n유의\n\n\nMarvel Super Heroes × Pieces\n0.036\n0.005\n7.65\n7.88e-13\n유의\n\n\nStar Wars × Pieces\n0.019\n0.004\n4.32\n2.46e-05\n유의\n\n\n\n\n새 교호작용 항이 모두 유의하므로, 테마에 따라 ‘부품 수가’ 가격에 미치는 기울기가 기준 테마와 통계적으로 유의하게 다르다고 결론 낼 수 있음\n\n\n\nX_inter = X_theme.mul(df[\"Pieces\"], axis=0)\nX_inter.columns = [f\"{c}:Pieces\" for c in X_inter.columns]\n\nX_int = pd.concat([X, X_inter], axis=1).astype(float)\nX_int = sm.add_constant(X_int, has_constant=\"add\")\n\n\nmodel_int = sm.OLS(df[\"Price\"].astype(float), X_int).fit()\n\n#model_int.fvalue, model_int.f_pvalue\n\n#model_int.summary2().tables[1].loc[[c for c in model_int.params.index if \":Pieces\" in c],\n#                                  [\"Coef.\", \"Std.Err.\", \"t\", \"P&gt;|t|\"]]",
+    "crumbs": [
+      "Posts",
+      "HW 02"
+    ]
+  },
+  {
+    "objectID": "posts/HW 02.html#section-13",
+    "href": "posts/HW 02.html#section-13",
+    "title": "HW 02",
+    "section": "(4)",
+    "text": "(4)\n특정 테마의 기울기가 기준 테마와 통계적으로 유의미하게 다른지 확인하고, 이를 “부품당 단가” 관점에서 해석하시오.\n\nsol\n교호작용 모형에서 기준 테마(예: Friends)의 Piece 기울기를 \\(\\beta_1\\), 테마 \\(T_k\\)의 교호작용 계수를 \\(\\delta_k\\)라 하면,\n\n기준 테마의 기울기(부품당 단가):\n\n\\[\\text{slope}(T_1) = \\beta_1 \\]\n\n테마 \\(T_k\\)의 기울기 (부품당 단가):\n\n\\[\\text{slope}(T_k) = \\beta_1  + \\delta_k\\]\n따라서 위 질문은\n\\[H_0: \\delta_k =0 \\quad vs \\quad H_1: \\delta_k \\neq 0\\]\n와 동일하다. 즉, 부품당 단가 관점에서 통계적으로 유의미하게 다르다.",
+    "crumbs": [
+      "Posts",
+      "HW 02"
+    ]
+  },
+  {
+    "objectID": "posts/HW 02.html#section-14",
+    "href": "posts/HW 02.html#section-14",
+    "title": "HW 02",
+    "section": "(5)",
+    "text": "(5)\n교호작용이 없는 모형과 교호작용이 포함된 모형에 대한 부분 F-검정(Partial F-test)을 수행하고, 어떤 모형이 본 데이터에 더 적합한지 판정하시오\n\nsol\n1 비교할 두 모형\n\nReduced model: 교호작용 없음\n\n\\[M_R: \\quad Y = \\beta_0 + \\beta_1 x + \\sum_{k=2}^{K} \\gamma_{k} D_k +\\epsilon_i \\]\n\nFull model: 교호작용 포함\n\n\\[M_F: \\quad Y = \\beta_0 + \\beta_1 x + \\sum_{k=2}^{K} \\gamma_{k} D_k + \\sum_{k=2}^{K} \\delta(x D_k) + \\epsilon_i \\]\n(\\(x = \\text{pieces}, D_k = 1(\\text{Theme}= T_k)\\))\n2 부분 F-검정\n교호작용 항들이 추가로 필요한지를 검정하므로\n\\[H_0: \\delta_2 = \\dots \\delta_k = 0, \\quad vs \\quad H_1: \\text{적어도 하나의 } \\delta_k \\neq 0\\]\n3\n\n\n\n\n\n\n\n\n\n\n\n\nComparison\nq (=df_diff)\nRSS(_R)\nRSS(_F)\nF\np-value\nDecision (α=0.05)\n\n\n\n\n\\(M_R \\,\\,\\text{vs}\\,\\, M_F\\)\n3\n52,953\n39,515\n23.1\n&lt;0.05\n교호작용 포함 모형 채택",
+    "crumbs": [
+      "Posts",
+      "HW 02"
+    ]
+  },
+  {
+    "objectID": "posts/HW 02.html#section-15",
+    "href": "posts/HW 02.html#section-15",
+    "title": "HW 02",
+    "section": "(6)",
+    "text": "(6)\n적합된 최종 모형을 바탕으로 잔차 분석을 수행하고, 교호작용을 넣음으로써 이전 모형에서 나타났던 잔차의 문제점이 개선되었는지 논하시오\n\nsol\n\nResid vs FittedQ-Q plot\n\n\n\nimport numpy as np\nimport plotly.express as px\nfrom plotly.subplots import make_subplots\n\ndef resid_fitted_df(model, df):\n    fitted = model.fittedvalues\n    resid = model.resid\n    tmp = df.loc[fitted.index, [\"Theme\"]].copy()\n    tmp[\"Fitted\"] = fitted\n    tmp[\"Residual\"] = resid\n    return tmp\n\ntmp_red = resid_fitted_df(model_red, df)\ntmp_int = resid_fitted_df(model_int, df)\n\nfig = make_subplots(rows=1, cols=2, subplot_titles=(\"No interaction\", \"With interaction\"))\n\nfig_red = px.scatter(tmp_red, x=\"Fitted\", y=\"Residual\", color=\"Theme\", opacity=0.75).data\nfor tr in fig_red:\n    fig.add_trace(tr, row=1, col=1)\n\nfig_int = px.scatter(tmp_int, x=\"Fitted\", y=\"Residual\", color=\"Theme\", opacity=0.75).data\nfor tr in fig_int:\n    # 범례가 너무 길면 col=2는 legend를 숨겨도 됨\n    tr.showlegend = False\n    fig.add_trace(tr, row=1, col=2)\n\nfig.add_hline(y=0, line_width=1, row=1, col=1)\nfig.add_hline(y=0, line_width=1, row=1, col=2)\n\nfig.update_layout(width=900, height=500, title=\"Residuals vs Fitted: Model Comparison\")\nfig.show()\n\n                            \n                                            \n\n\n\n\n\n\ndef qq_data(resid):\n    r = np.asarray(resid)\n    r_sorted = np.sort(r)\n    n = len(r_sorted)\n    theo_q = st.norm.ppf((np.arange(1, n+1) - 0.5) / n)\n    return theo_q, r_sorted\n\ntheo_r, rs_r = qq_data(model_red.resid)\ntheo_i, rs_i = qq_data(model_int.resid)\n\nfigqq = make_subplots(rows=1, cols=2, subplot_titles=(\"No interaction\", \"With interaction\"))\n\nfigqq.add_trace(go.Scatter(x=theo_r, y=rs_r, mode=\"markers\", name=\"Residuals\"), row=1, col=1)\nfigqq.add_trace(go.Scatter(x=theo_i, y=rs_i, mode=\"markers\", showlegend=False), row=1, col=2)\n\nfigqq.update_layout(width=1200, height=500, title=\"Normal Q-Q Plot: Model Comparison\",\n                    xaxis_title=\"Theoretical Quantiles\", yaxis_title=\"Sample Quantiles\", showlegend = False)\nfigqq.show()\n\n                            \n                                            \n\n\n1 교호작용을 포함한 모형에서는 잔차 plot의 패턴이 이전보다는 완화되었지만….. 추가 작업이 필요해보임, 여전히 이분산성이 관측됨.\n2 Q-Q plot의 경우에도 양측 꼬리의 패턴이 기존보다는 완화 되었지만, 첫 번째 잔차값이 정규성에 위해?를 가하는 이상치로 판단됨.",
+    "crumbs": [
+      "Posts",
+      "HW 02"
+    ]
+  },
+  {
+    "objectID": "posts/HW 02.html#section-16",
+    "href": "posts/HW 02.html#section-16",
+    "title": "HW 02",
+    "section": "(7)",
+    "text": "(7)\n이상치, 지룃대점, 영향점이 존재하는 지를 확인하고, 존재한다면 이 값들을 제외하고 모형 적합을 한 후 기존 모형과 비교하여라.\n\nsol\n1 이상치: \\(|t_i| &gt; 3\\)이면 이상치 후보\n2 지렛댇점:\n\\[h_ii &gt; 2\\bar h, \\quad \\bar h = \\frac{p+1}{n}\\]\n3 영향점\n\\[D_i \\geq F(0.05, P+1, n-p-1)\\]\n\nimport numpy as np\nimport pandas as pd\nimport statsmodels.api as sm\nfrom scipy.stats import f\nfrom statsmodels.stats.outliers_influence import OLSInfluence\n\n# 0) influence 객체\ninfl = OLSInfluence(model_int)\n\n# 1) Outlier: studentized residual\nt_i = infl.resid_studentized_internal\nidx_out = np.where(np.abs(t_i) &gt; 3)[0]\n\n# 2) Leverage: h_ii &gt; 2*(p+1)/n  (p+1 = exog cols)\nhii = infl.hat_matrix_diag\nn = int(model_int.nobs)\np1 = model_int.model.exog.shape[1]\ncut_lev = 2 * (p1 / n)\nidx_lev = np.where(hii &gt; cut_lev)[0]\n\n# 3) Influence: Cook's D &gt;= cutoff\ncooks_d = infl.cooks_distance[0]\ndfn = p1                  # = p+1\ndfd = n - (p1)            # = n-(p+1) = df_resid\ncut_inf = f.isf(0.05, dfn, dfd)   # 우측 0.05 (== ppf(0.95))\nidx_inf = np.where(cooks_d &gt;= cut_inf)[0]\n\n# 4) 제거 인덱스 합집합\ndrop_idx = sorted(set(idx_out) | set(idx_lev) | set(idx_inf))\n\nprint(\"Outliers:\", len(idx_out))\nprint(\"Leverage points:\", len(idx_lev))\nprint(\"Influential points:\", len(idx_inf))\nprint(\"Total removed:\", len(drop_idx))\n\n# 5) 제거 후 데이터\ndf2 = df.drop(index=df.index[drop_idx]).copy()\n\n# 6) 동일한 방식으로 design matrix 재구성 (Pieces*Theme)\ndf2[\"Theme\"] = df2[\"Theme\"].astype(\"category\")\ndf2[\"Theme\"] = df2[\"Theme\"].cat.set_categories(df[\"Theme\"].cat.categories)\n\nX_theme2 = pd.get_dummies(df2[\"Theme\"], drop_first=True)\nX2 = pd.concat([df2[[\"Pieces\"]], X_theme2], axis=1)\n\nX_inter2 = X_theme2.mul(df2[\"Pieces\"], axis=0)\nX_inter2.columns = [f\"{c}:Pieces\" for c in X_theme2.columns]\n\nX_int2 = pd.concat([X2, X_inter2], axis=1).astype(float)\nX_int2 = sm.add_constant(X_int2, has_constant=\"add\")\n\ny2 = df2[\"Price\"].astype(float)\n\nmodel_int_refit = sm.OLS(y2, X_int2).fit()\n\n# 7) 비교 지표\nstats_compare = pd.DataFrame({\n    \"Metric\": [\"nobs\", \"RSS(SSE)\", \"df_resid\", \"MSE\", \"R2\", \"Adj_R2\"],\n    \"Original\": [model_int.nobs, model_int.ssr, model_int.df_resid, model_int.mse_resid,\n                 model_int.rsquared, model_int.rsquared_adj],\n    \"Refit\": [model_int_refit.nobs, model_int_refit.ssr, model_int_refit.df_resid,\n              model_int_refit.mse_resid, model_int_refit.rsquared, model_int_refit.rsquared_adj]\n})\n#stats_compare\n\nOutliers: 5\nLeverage points: 8\nInfluential points: 2\nTotal removed: 9\n\n\n1 이상치/지렛대점/영향점 존재 여부 요약\n\n\n\nType\nn\n\n\n\n\nOutlier\n5\n\n\nLeverage\n8\n\n\nInfluence\n2\n\n\nTotal removed (union)\n9\n\n\n\n2 모형 비교\n\n\n\n\n\n\n\n\n\nMetric\n기존 교호작용 모델\n이상치 등 제거 모델\nComment\n\n\n\n\nn\n212\n203\n9개 관측치 제거\n\n\nRSS(SSE)\n39,515\n19,889\n잔차 제곱합 감소\n\n\nMSE\n19\n102\n평균 잔차 제곱합 감소\n\n\n\\(R^2\\)\n0.97\n0.93\n설명력 지표는 감소\n\n\n\\(R^2_{adj}\\)\n0.97\n0.93\n설명력 지표는 감소\n\n\n\n3 결과 요약\n\n이상치·지렛대점·영향점 후보를 제거하고 교호작용 모형을 재적합한 결과, RSS와 MSE가 크게 감소하여 잔차 변동 측면에서는 개선되었다.\n반면 결정계수 값들은 오히려 감소되었는데, 이는 각 이상치, 지렛대점, 영향치 후보군들을 제거할 경우, 모형의 적합 안정성을 높이는 대신 데이터 변동을 설명하는 정도는 다소 낮아진다고 볼 수 있다.",
+    "crumbs": [
+      "Posts",
+      "HW 02"
+    ]
+  },
+  {
+    "objectID": "posts/HW 02.html#section-17",
+    "href": "posts/HW 02.html#section-17",
+    "title": "HW 02",
+    "section": "(8)",
+    "text": "(8)\n만약 어떤 테마는 부품 수가 적을 때는 저렴하지만 부품 수가 많아질수록 가격이 급격히 비싸진다면, 이는 교호작용 계수의 부호와 크기에 어떤 영향을 주겠는가? 데이터의 분포와 연결 지어 발표하시오.\n\nsol\n\nfig = px.scatter(\n    df,\n    x=\"Pieces\",\n    y=\"Price\",\n    color=\"Theme\",\n    opacity=0.75,\n    hover_data=[\"Name\", \"Year\"],\n    title=\"Price vs Pieces with Theme-wise Regression Lines\"\n)\n\nfig.update_layout(width=800, height=500,\n                  xaxis_title=\"Pieces\",\n                  yaxis_title=\"Price (USD)\")\nfig.show()\n\n                            \n                                            \n\n\n1 전반적으로 Pieces가 증가할수록 Price가 증가하는 양(+)의 관계를 보인다.\n2 그림에서 Star Wars와 Marvel Super Heros는 2,000 이상의 Pieces 영역에서 가격이 상대적으로 더 높게 나타나는 점들이 다수 존재하여, 부품 수가 커질수록 가격이 더 급격히 증가하는 패턴을 보인다.\n3 따라서 이러한 분포는 교호작용 계수가 양으로 추정되도록 만들며, 특히 큰 Pieces 구간에서 기존 테마와의 가격 격차가 더 빠르게 벌어질 수록 교호작용 계수가 커져 “부품당 단가(기울기)”가 더 급격히 증가한다.",
+    "crumbs": [
+      "Posts",
+      "HW 02"
+    ]
+  },
+  {
+    "objectID": "posts/HW 02.html#section-18",
+    "href": "posts/HW 02.html#section-18",
+    "title": "HW 02",
+    "section": "(1)",
+    "text": "(1)\nMPV 패키지를 설치하고 table.b11 데이터를 로드하시오. 종속변수를 Quality(y)로, 독립변수를 Flavor(x)와 Region(d)으로 설정하고 데이터의 구조(str())를 확인하시오. 현재 Region 변수가 어떤 자료형으로 저장되어 있는지 기술하시오\n\nsol\n\ndf_wine = pd.read_csv(\"data/table.b11.csv\") \n#df_wine.info()\n\n1 데이터는 총 \\(n=38\\)개 관측치이고, 7개 변수(Clarity, Aroma, Body, Flavor, Oakiness, Quality, Region)로 구성되어 있다.\n2 이 중 Region 변수는 int64(정수형)으로 저장되어 있다.\n3 따라서 Region을 그대로 회귀모형에 넣으면, 범주형이 아니라 수치형(선형) 변수처럼 처리되어 “Region이 1 증가할 때 Quality가 일정량 변한다”는 형태의 모형(Model A)이 된다.",
+    "crumbs": [
+      "Posts",
+      "HW 02"
+    ]
+  },
+  {
+    "objectID": "posts/HW 02.html#section-19",
+    "href": "posts/HW 02.html#section-19",
+    "title": "HW 02",
+    "section": "(2)",
+    "text": "(2)\n(Model A) Region 변수가 정수형(Integer: 1, 2, 3)으로 입력되어 있는 상태 그대로 회귀 모형을 적합하려고 한다.\n\n품질을 예측하기 위한 모형을 정의하여라.\n회귀모형을 적합하고, 모형의 유의성 및 회귀계수의 유의성을 검정하여라.\n추정된 회귀계수의 통계적 의미를 설명하시오.\n이 모델이 가정하는 “지역 번호와 품질 사이의 관계”가 실제 데이터 분석에서 타당한 가설인지 논하시오.\n\n\nsol\n\na. 모형 정의\n\\(y= \\text{Quality}, \\, x= \\text{Flavor}, \\,d = \\text{Region}\\)\n\\[y = \\beta_0 + \\beta_1x + \\beta_2d + \\epsilon\\]\n\n\nb. 모형 적합후, 유의성 검정\n1 모형 유의성 검정\n\n\n\n\n\n\n\n\n\n\nTest\nH0\nStatistic\np-value\nConclusion (\\(\\alpha=0.05\\))\n\n\n\n\nF-test\n\\((\\beta_1=\\beta_2=0)\\)\n(\\(F=31.06\\))\n(\\(p=1.74e-08\\))\n귀무가설 기각\n\n\n\n2 개별 회귀계수 유의성 검정\n\n\n\n\n\n\n\n\n\n\n\nCoefficient\nEstimate\nStd. Error\nt\np-value\nConclusion (α=0.05)\n\n\n\n\nIntercept (\\(\\beta_0\\))\n5.0\n0.985\n5.08\n1.26e-05\n유의\n\n\nFlavor (\\(\\beta_1\\))\n1.42\n0.234\n6.10\n5.77e-07\n유의\n\n\nRegion (\\(\\beta_2\\))\n0.34\n0.275\n1.23\n2.28-01\n유의하지 않음\n\n\n\n\nimport statsmodels.api as sm\n\ny = df_wine[\"Quality\"].astype(float)\nX = df_wine[[\"Flavor\", \"Region\"]].astype(float)\nX = sm.add_constant(X, has_constant=\"add\")\n\nmodel_A = sm.OLS(y, X).fit()\n\n#model_A.fvalue, model_A.f_pvalue\n#model_A.summary2().tables[1][[\"Coef.\",\"Std.Err.\",\"t\",\"P&gt;|t|\"]]\n\n\n\nc. 추정된 회귀계수의 통계적 의미.\n\\[E(\\text{Quality}\\,|\\,\\text{Flavor} = x, \\text{Region} = d) = \\beta_0 + \\beta_1x +\\beta_2 d\\]\n\n\\(\\hat\\beta_0=5.0039\\) (유의): \\(x=0, d=0\\)에서의 기준 평균(해석은 기준점 성격이 큼).\n\\(\\hat\\beta_1=1.4267\\) (유의): Region을 고정하면 Flavor가 1 증가할 때 Quality의 평균이 약 1.43 증가.\n\\(\\hat\\beta_2=0.3372\\) (유의하지 않음): Flavor를 고정하면 Region이 1 증가할 때 Quality 평균이 약 0.34 증가로 추정되지만, 통계적으로 유의하지 않음(\\(p=0.228\\)).\n\n\n\nd. 지역 번호와 품질 사이의 관계\n1 Model A는 Region(1,2,3)을 숫자로 넣어서 “지역 번호가 1 증가할 때마다 Quality가 일정하게(선형·등간으로) 변한다”는 가정을 한다.\n2 하지만 Region은 본질적으로 범주형이므로 이런 선형 가정은 강한 제약이고, 실제로는 Region을 범주형으로 처리한 모형(Model B)과 비교해서 판단하는 것이 더 타당하다.",
+    "crumbs": [
+      "Posts",
+      "HW 02"
+    ]
+  },
+  {
+    "objectID": "posts/HW 02.html#section-20",
+    "href": "posts/HW 02.html#section-20",
+    "title": "HW 02",
+    "section": "(3)",
+    "text": "(3)\n(Model B) Region을 범주형 변수(as.factor)로 변환하여 새로운 회귀 모형을 적합하시오.\n\n품질을 예측하기 위한 모형을 정의하여라.\n회귀모형을 적합하여고, 모형의 유의성 및 회귀계수의 유의성을 검정하여라.\n각 지역별로 추정된 회귀계수가 의미하는 바를 (2)번 모델의 결과와 비교하여 서술하시오.\n\n\nsol\n\na. 모형 정의\n\n반응변수는 Quality, 설명변수는 Flavor이며, Region은 숫자가 아니라 범주형 변수로 처리한다.\nRegion이 3개 범주(1,2,3)이므로 기준지역을 Region=1로 두면, Model B는 다음과 같이 정의할 수 있다.\n\n\\[\\text{Quality}_i = \\beta_0+\\beta_1\\,\\text{Flavor}_i + \\gamma_2\\,\\mathbf{1}(\\text{Region}_i=2) + \\gamma_3\\,\\mathbf{1}(\\text{Region}_i=3) + \\epsilon_i,\n\\quad \\epsilon_i \\sim i.i.d.\\ \\mathcal{N}(0,\\sigma^2)\\]\n\n\\(\\beta_0\\): 기준지역(Region=1)에서 Flavor=0일 때의 평균 Quality(절편)\n\n\\(\\beta_1\\): Flavor가 1 증가할 때 Quality 평균의 변화량(지역 공통 기울기)\n\n\\(\\gamma_2\\): Region=2가 Region=1 대비 평균 Quality가 얼마나 다른지\n\\(\\gamma_3\\): Region=3이 Region=1 대비 평균 Quality가 얼마나 다른지\n\n\n\nb. 회귀모형 적합, 유의성 검증\nModel B는 Region을 범주형으로 처리한 회귀모형이다. 따라서 회귀계수의 유의성은 다음 두 수준에서 확인한다.\n1 전체 모형 유의성 검증\n\n귀무가설: Flavor 및 Region(더미항)이 모두 필요 없다. \\(\\to \\,\\,H_0: \\beta_1=\\gamma_2=\\gamma_3=0\\)\n대립가설: 적어도 하나는 0이 아니다.\n\nF 통계량과 p-value를 보고, p-value &lt; 0.05이면 “모형은 유의”라고 결론낸다.\n\n\n\n\nTest\nStatistic\np-value\nConclusion (α=0.05)\n\n\n\n\nF-test\n53.13\n6.35e-13\n귀무가설 기각\n\n\n\n2 개별 회귀계수 유의성 검증\n\n\n\nTerm\nEstimate\nStd. Error\nt\np-value\nConclusion (α=0.05)\n\n\n\n\nIntercept\n7.09\n0.79\n8.97\n1.76e-10\n귀무가설 기각\n\n\nFlavor\n-1.53\n0.37\n-4.16\n2.05e-04\n귀무가설 기각\n\n\nRegion=2 (vs 1)\n1.22\n0.40\n3.06\n4.35e-03\n귀무가설 기각\n\n\nRegion=3 (vs 1)\n1.11\n0.17\n6.42\n2.49e-07\n귀무가설 기각\n\n\n\n\nimport statsmodels.formula.api as smf\n\nmodel_B = smf.ols(\"Quality ~ Flavor + C(Region)\", data=df_wine).fit()\n\n#model_B.fvalue, model_B.f_pvalue\n\n#model_B.summary2().tables[1][[\"Coef.\", \"Std.Err.\", \"t\", \"P&gt;|t|\"]]\n\n\n\nc. Model A vs B\nModel B에서 Region은 범주형이므로, 지역 효과는 “번호가 1 증가할 때”가 아니라 기준지역(Region=1) 대비 평균 수준(절편)의 차이로 해석한다.\n\nIntercept: 기준지역(Region=1)에서 Flavor=0일 때의 평균 Quality(기준점).\nFlavor 계수: Region을 고정했을 때 Flavor가 1 증가하면 평균 Quality가 얼마나 변하는지(지역 공통 기울기).\nRegion=2 더미 계수: Region=2의 평균 Quality가 기준지역(Region=1)보다 얼마나 높은지/낮은지(절편 차이).\nRegion=3 더미 계수: Region=3의 평균 Quality가 기준지역(Region=1)보다 얼마나 높은지/낮은지(절편 차이).\n\n즉, Model B는 지역 간 차이를 “선형 등간(1→2→3)”으로 강제하지 않고, 각 지역의 평균 수준 차이를 더 일반적으로 허용한다.",
+    "crumbs": [
+      "Posts",
+      "HW 02"
+    ]
+  },
+  {
+    "objectID": "posts/HW 02.html#section-21",
+    "href": "posts/HW 02.html#section-21",
+    "title": "HW 02",
+    "section": "(4)",
+    "text": "(4)\n(Model C) Region과 Flavor 사이의 교호작용(Interaction)을 포함한 최종 모형을 적합하시오. 이 모델이 (3)번 모델에 비해 통계적으로 유의미하게 향상되었는지 anova() 함수를 통한 부분 F-검정 (Partial F-test)으로 증명하시오.\n\nsol\n1 두 모형 정의\n\nModel B (Reduced; 교호작용 없음)\nRegion은 범주형으로 포함하되, Flavor의 기울기는 모든 Region에서 동일하다고 가정한다.\n\n모형식: Quality ~ Flavor + C(Region)\n\nModel C (Full; 교호작용 포함)\nRegion별로 절편뿐 아니라 Flavor의 기울기까지 달라질 수 있도록 교호작용을 포함한다.\n\n모형식: Quality ~ Flavor * C(Region)\n\n(여기서 *는 main effect + interaction을 모두 포함)\n\n2 부분 F-검정\n\n귀무가설 \\(H_0\\): Region×Flavor 교호작용 효과가 없다\n(즉, 모든 교호작용 계수들이 0) \\(H_0:\\ \\delta_2=\\delta_3=\\cdots=0\\)\n대립가설 \\(H_1\\): 적어도 하나의 교호작용 계수는 0이 아니다 $ H_1:  _k $\n\n3 결론\n\n\n\n\n\n\n\n\n\n\n\n\nComparison\ndf_diff\nRSS(B)\nRSS(C)\nF\np-value\nDecision (α=0.05)\n\n\n\n\nModel B vs C\n2\n27.21\n25.42\n1.12\n0.33\n귀무가설 기각 \\(\\to\\) 교호작용 불필요\n\n\n\n\nimport statsmodels.formula.api as smf\nfrom statsmodels.stats.anova import anova_lm\n\n# Model B (Reduced)\nmodel_B = smf.ols(\"Quality ~ Flavor + C(Region)\", data=df_wine).fit()\n\n# Model C (Full: interaction 포함)\nmodel_C = smf.ols(\"Quality ~ Flavor * C(Region)\", data=df_wine).fit()\n\n# Partial F-test\nanova_res = anova_lm(model_B, model_C)\n#anova_res",
+    "crumbs": [
+      "Posts",
+      "HW 02"
+    ]
+  },
+  {
+    "objectID": "posts/HW 02.html#section-22",
+    "href": "posts/HW 02.html#section-22",
+    "title": "HW 02",
+    "section": "(5)",
+    "text": "(5)\n통계적 지표와 해석의 용이성을 모두 고려했을 때, 본인이 와인 비평가라면 어떤 모형을 최종적으로 제안하겠는가? 본인의 논리적 근거를 바탕으로 발표하시오.\n\nsol\n1 Model B(Region을 범주형으로 포함, 교호작용 없음)를 최종 모형으로 제안한다.\n2 이유는 Model C의 교호작용(Region×Flavor)은 부분 F-검정에서 유의하지 않아 복잡한 교호작용을 추가할 통계적 근거가 부족하다.\n3 또한, Model B는 지역 효과를 번호의 선형 증가로 가정하지 않고 지역별 평균 차이로 해석할 수 있어 해석이 더 자연스럽기 때문이다.\n4 따라서 통계적 지표와 해석 용이성을 함께 고려하면 Model B가 가장 합리적인 선택이다.",
+    "crumbs": [
+      "Posts",
+      "HW 02"
     ]
   },
   {
@@ -23,8 +276,8 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "lgc",
+    "title": "AS2026",
     "section": "",
-    "text": "Order By\n      Default\n      \n        Date - Oldest\n      \n      \n        Date - Newest\n      \n      \n        Title\n      \n      \n        Author\n      \n    \n  \n    \n      \n      \n    \n\n\n\n\n\n\nDate\n\n\n\nTitle\n\n\n\nAuthor\n\n\n\n\n\n\n\n\nMar 5, 2026\n\n\n00. Intro\n\n\nLGC \n\n\n\n\n\n\nNo matching items"
+    "text": "Order By\n      Default\n      \n        Date - Oldest\n      \n      \n        Date - Newest\n      \n      \n        Title\n      \n      \n        Author\n      \n    \n  \n    \n      \n      \n    \n\n\n\n\n\n\nDate\n\n\n\nTitle\n\n\n\nAuthor\n\n\n\n\n\n\n\n\nApr 27, 2026\n\n\nHW 02\n\n\nlgc \n\n\n\n\n\n\nNo matching items"
   }
 ]

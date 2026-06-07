@@ -25,6 +25,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -35,6 +70,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
+<link href="../../posts/PR/PR.html" rel="next">
 <link href="../../posts/HW/HW 02.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -213,6 +249,23 @@ window.Quarto = {
 </li>
       </ul>
   </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text">PR</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../posts/PR/PR.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">PR</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
       </ul>
   </li>
     </ul>
@@ -315,6 +368,22 @@ window.Quarto = {
 <li>단, <span class="math inline">\(x_4 = -1\)</span>인 그룹을 기준(Reference)으로 설정</li>
 </ul>
 <p><span class="math display">\[\ln(y_i) = \beta_0 + \beta_1\ln(x_{i1}) + \beta_2 x_{i2} + \beta_3 x_{i3} + \beta_4 I(x_{i4}=1) + \beta_5 x_{i5} + \beta_6 x_{i6} + \epsilon_i\]</span></p>
+<div id="43279f3a-0e9c-4903-9acb-5a28a0732b0a" class="cell" data-execution_count="20">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.read_csv(<span class="st">"data/HW4_dt1.csv"</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>data[<span class="st">'log_y'</span>] <span class="op">=</span> np.log(data[<span class="st">'y'</span>])</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>data[<span class="st">'log_x1'</span>] <span class="op">=</span> np.log(data[<span class="st">'x1'</span>])</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> smf.ols(<span class="st">'log_y ~ log_x1 + x2 + x3 + C(x4) + x5 + x6'</span>, data<span class="op">=</span>data)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>fit <span class="op">=</span> model.fit()</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 결과 확인 (이 셀의 출력 결과를 보고 아래 마크다운 셀에 숫자를 채워넣습니다)</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co">#print(fit.summary())</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <p><code>2</code> 모형 적합</p>
 <p><strong>[회귀분석 결과 요약]</strong></p>
 <table class="table">
@@ -391,6 +460,12 @@ window.Quarto = {
 <section id="section-1" class="level2">
 <h2 class="anchored" data-anchor-id="section-1">1-(2)</h2>
 <p>변수들간의 상관계수를 구하여라.</p>
+<div id="73a0ce83-d96a-437e-bc2a-35b9b7ab3ef2" class="cell" data-execution_count="21">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>cor_vars <span class="op">=</span> [<span class="st">'log_y'</span>, <span class="st">'log_x1'</span>, <span class="st">'x2'</span>, <span class="st">'x3'</span>, <span class="st">'x5'</span>, <span class="st">'x6'</span>]</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>cor_matrix <span class="op">=</span> data[cor_vars].corr().<span class="bu">round</span>(<span class="dv">2</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">#print(cor_matrix)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">상관계수 행렬</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">변수 간 관계 시각화</a></li></ul>
 <div class="tab-content">
@@ -471,6 +546,29 @@ window.Quarto = {
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
 <div id="186a558b-b106-4258-bc07-d1fda7e3af42" class="cell" data-execution_count="22">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.express <span class="im">as</span> px</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.io <span class="im">as</span> pio</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>pio.renderers.default <span class="op">=</span> <span class="st">'notebook_connected'</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotly Express를 이용한 산점도 및 선형 추세선(OLS) 시각화</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> px.scatter(</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    data, </span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span><span class="st">'log_x1'</span>, </span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    y<span class="op">=</span><span class="st">'log_y'</span>, </span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    trendline<span class="op">=</span><span class="st">'ols'</span>, <span class="co"># Ordinary Least Squares (선형 회귀) 추세선 추가</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">'&lt;b&gt;ln(y)와 ln(x1)의 산점도'</span>,</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    labels<span class="op">=</span>{</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">'log_x1'</span>: <span class="st">'ln(x1)'</span>, </span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">'log_y'</span>: <span class="st">'ln(y)'</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    },</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    template<span class="op">=</span><span class="st">'plotly_white'</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="co"># 마커 및 레이아웃 업데이트</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>fig.update_traces(marker<span class="op">=</span><span class="bu">dict</span>(size<span class="op">=</span><span class="dv">10</span>, color<span class="op">=</span><span class="st">'royalblue'</span>, opacity<span class="op">=</span><span class="fl">0.8</span>))</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>fig.update_layout(title_font_size<span class="op">=</span><span class="dv">18</span>, title_x<span class="op">=</span><span class="fl">0.5</span>, width <span class="op">=</span> <span class="dv">800</span>, height <span class="op">=</span> <span class="dv">600</span>)</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="co"># 그래프 출력</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>fig.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>            <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_SVG"></script><script type="text/javascript">if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}</script>                <script type="text/javascript">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
         <script charset="utf-8" src="https://cdn.plot.ly/plotly-3.1.0.min.js" integrity="sha256-Ei4740bWZhaUTQuD6q9yQlgVCMPBz6CZWhevDYPv93A=" crossorigin="anonymous"></script>                <div id="fc832f99-23da-4679-91df-09efa55782ca" class="plotly-graph-div" style="height:600px; width:800px;"></div>            <script type="text/javascript">                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("fc832f99-23da-4679-91df-09efa55782ca")) {                    Plotly.newPlot(                        "fc832f99-23da-4679-91df-09efa55782ca",                        [{"hovertemplate":"ln(x1)=%{x}\u003cbr\u003eln(y)=%{y}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"","marker":{"color":"royalblue","symbol":"circle","opacity":0.8,"size":10},"mode":"markers","name":"","orientation":"v","showlegend":false,"x":{"dtype":"f8","bdata":"G+rBNVJ58D+PNBPZwojVP480E9nCiNU\u002fd8dAck4a8z+RqRQZ6PrgPxJSMSAOCfE\u002fUOUKZe7u9D9pKHtDf1i1v8xtmK+xrti\u002fzG2Yr7Gu2L8CICr6C6v8P\u002fctv7R8Vvc\u002fUhSB+q5Y4L\u002fE8dj6Jc\u002fiPwIgKvoLq\u002fw\u002fXP6N9qa09z9gcV37yugRQOvcJ4QvghBArxust9JLD0BNRsbF5D0QQBAsMRvO\u002fxFApiNK2jTCEEBeiEbpPcQTQAfBI5ws7BVAIcnxhzgpGEBiuLA5wtsYQE5zEHuWxRRA02zcuchkFkBI6te+DosUQGp0+LYBVxJAxfMPU1pxDEA="},"xaxis":"x","y":{"dtype":"f8","bdata":"Mc8McXyN\u002fj9RjDErBIUEQPo1EXSqhwVAnGnP1QJFBEDZm1h1t+EAQGittCAatgJAinU3lBjD\u002fz9WoTt8W1AEQIgrifjBQQRAPmG7zsszCEAC6uTS4mf0P1daMq5yIv8\u002fK8pOeEYgCkBVYSvc+qcDQBc1VadsTABAYD21LlELBEA40EaPX5DRv\u002fYHfeTpNNM\u002fdpbkEVBW1z\u002fPJicaihTeP8xGPHk\u002fZrg\u002feUGWl2vNxL91luQRUFbHPy9GV4TfjeK\u002fad0P7DUG1b\u002fT5WYfJSnov7TiKQUVvfG\u002fvB71GJ2N9b840EaPX5DRvyCamsf3j8y\u002f7zn6\u002fkIu5j8="},"yaxis":"y","type":"scatter"},{"hovertemplate":"\u003cb\u003eOLS trendline\u003c\u002fb\u003e\u003cbr\u003elog_y = -0.612635 * log_x1 + 2.77288\u003cbr\u003eR\u003csup\u003e2\u003c\u002fsup\u003e=0.941200\u003cbr\u003e\u003cbr\u003eln(x1)=%{x}\u003cbr\u003eln(y)=%{y} \u003cb\u003e(trend)\u003c\u002fb\u003e\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"","marker":{"color":"royalblue","symbol":"circle","opacity":0.8,"size":10},"mode":"lines","name":"","showlegend":false,"x":{"dtype":"f8","bdata":"UhSB+q5Y4L\u002fMbZivsa7Yv8xtmK+xrti\u002faSh7Q39Ytb+PNBPZwojVP480E9nCiNU\u002fkakUGej64D\u002fE8dj6Jc\u002fiPxvqwTVSefA\u002fElIxIA4J8T93x0ByThrzP1DlCmXu7vQ\u002f9y2\u002ftHxW9z9c\u002fo32prT3PwIgKvoLq\u002fw\u002fAiAq+gur\u002fD\u002fF8w9TWnEMQK8brLfSSw9ATUbGxeQ9EEDr3CeEL4IQQKYjSto0whBAYHFd+8roEUAQLDEbzv8RQGp0+LYBVxJAXohG6T3EE0BI6te+DosUQE5zEHuWxRRAB8EjnCzsFUDTbNy5yGQWQCHJ8Yc4KRhAYriwOcLbGEA="},"xaxis":"x","y":{"dtype":"f8","bdata":"cz1pisWvCEBWaiyDuxIIQFZqLIO7EghAftg6zHeXBkDN3J7+r4gEQM3cnv6viARA9xFpqRWVA0BGHbiMXk0DQHUk7i8DIwFAzzS\u002f9fv2AEAYaICJ3VQAQHXCB4yiiv8\u002fWmnzJ4YR\u002fj8uL6DT1df9P8roiCaMzfo\u002fyuiIJozN+j987dq2KgjjPyiZawA+FNg\u002fSJtNf31C0j\u002fAcWLdKUrPPzBrrjoUY8o\u002fgBhL\u002fVGfnj8AwKGPNoaQP8BFW4AAc6K\u002fgKpVfXdK0L8wAQQnSufXv7imiwwDJdq\u002fYBUHBUy24r+4ckdCagXlv\u002fhVb7XXru2\u002f1Ksubu+M8L8="},"yaxis":"y","type":"scatter"}],                        {"template":{"data":{"barpolar":[{"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scattermap":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermap"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"white","showlakes":true,"showland":true,"subunitcolor":"#C8D4E3"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"light"},"paper_bgcolor":"white","plot_bgcolor":"white","polar":{"angularaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""},"bgcolor":"white","radialaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"yaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"zaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"baxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"bgcolor":"white","caxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2},"yaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2}}},"xaxis":{"anchor":"y","domain":[0.0,1.0],"title":{"text":"ln(x1)"}},"yaxis":{"anchor":"x","domain":[0.0,1.0],"title":{"text":"ln(y)"}},"legend":{"tracegroupgap":0},"title":{"text":"\u003cb\u003eln(y)\uc640 ln(x1)\uc758 \uc0b0\uc810\ub3c4","font":{"size":18},"x":0.5},"width":800,"height":600},                        {"responsive": true}                    ).then(function(){
@@ -509,6 +607,30 @@ if (outputEl) {{
 <section id="section-2" class="level2">
 <h2 class="anchored" data-anchor-id="section-2">1-(3)</h2>
 <p>설명변수 6개를 모두 사용한 완전모형(full model)에 대한 분산분석표를 작성하고 α = 0.05에서 선형회귀모형의 유의성을 검정하시오.</p>
+<div id="aedbe460-f0af-4b07-a77a-e435e529d706" class="cell" data-scrolled="true" data-execution_count="23">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> smf.ols(<span class="st">'log_y ~ log_x1 + x2 + x3 + C(x4) + x5 + x6'</span>, data<span class="op">=</span>data)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>fit <span class="op">=</span> model.fit()</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>df_model <span class="op">=</span> <span class="bu">int</span>(fit.df_model)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>df_resid <span class="op">=</span> <span class="bu">int</span>(fit.df_resid)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>df_total <span class="op">=</span> df_model <span class="op">+</span> df_resid</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>ssr <span class="op">=</span> fit.ess</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>sse <span class="op">=</span> fit.ssr</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>sst <span class="op">=</span> fit.centered_tss</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>msr <span class="op">=</span> fit.mse_model</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>mse <span class="op">=</span> fit.mse_resid</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>f_stat <span class="op">=</span> fit.fvalue</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>p_val <span class="op">=</span> fit.f_pvalue</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="co">#print("--- [분산분석표 결과] ---")</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="co">#print(f"회귀(Model)   | DF: {df_model} | SS: {ssr:.4f} | MS: {msr:.4f} | F: {f_stat:.4f} | p-value: {p_val:.4e}")</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="co">#print(f"오차(Residual)| DF: {df_resid} | SS: {sse:.4f} | MS: {mse:.4f}")</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="co">#print(f"총계(Total)   | DF: {df_total} | SS: {sst:.4f}")</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <p><code>1</code> 가설설정</p>
 <ul>
 <li><p><strong>귀무가설 (<span class="math inline">\(H_0\)</span>)</strong>: <span class="math inline">\(\beta_1= \beta_2= \dots\beta_6 = 0\)</span></p></li>
@@ -623,6 +745,33 @@ if (outputEl) {{
 <p>모든 가능한 회귀모형에 대하여 <span class="math inline">\(C_p\)</span> 값을 구하여라.</p>
 <p><code>1</code> <span class="math inline">\(C_p\)</span> 통계량 정의</p>
 <p><span class="math display">\[C_p = \frac{SSE_p}{MSE_{full}} - (n - 2p)\]</span></p>
+<div id="94fb0b23-293a-4d2c-a77f-ed4d229b9baa" class="cell" data-execution_count="24">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> itertools</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>predictors <span class="op">=</span> [<span class="st">'log_x1'</span>, <span class="st">'x2'</span>, <span class="st">'x3'</span>, <span class="st">'C(x4)'</span>, <span class="st">'x5'</span>, <span class="st">'x6'</span>]</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>all_models <span class="op">=</span> []</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="bu">len</span>(predictors) <span class="op">+</span> <span class="dv">1</span>):</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> combo <span class="kw">in</span> itertools.combinations(predictors, i):</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>        all_models.append(<span class="bu">list</span>(combo))</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>full_model <span class="op">=</span> smf.ols(<span class="st">'log_y ~ log_x1 + x2 + x3 + C(x4) + x5 + x6'</span>, data<span class="op">=</span>data).fit()</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>mse_full <span class="op">=</span> full_model.mse_resid</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="bu">len</span>(data)</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> []</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> combo <span class="kw">in</span> all_models:</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    formula <span class="op">=</span> <span class="st">'log_y ~ '</span> <span class="op">+</span> <span class="st">' + '</span>.join(combo)</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> smf.ols(formula, data<span class="op">=</span>data).fit()</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    p <span class="op">=</span> <span class="bu">len</span>(combo) </span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    cp <span class="op">=</span> (model.ssr <span class="op">/</span> mse_full) <span class="op">-</span> (n <span class="op">-</span> <span class="dv">2</span> <span class="op">*</span> p)</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    results.append({<span class="st">'model'</span>: formula, <span class="st">'p'</span>: p, <span class="st">'Cp'</span>: cp})</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>results_df <span class="op">=</span> pd.DataFrame(results)</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a><span class="co">#print(results_df.sort_values('Cp').head(10).to_string(index=False))</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <p><code>2</code> 값 대입 후 모형별 <span class="math inline">\(C_p\)</span> 산출</p>
 <table class="table">
 <thead>
@@ -770,6 +919,93 @@ if (outputEl) {{
 <li><p>후진제거법, 전진선택법 그리고 단계적 전진선택법을 사용하여 <span class="math inline">\(MSE_p\)</span> 를 기준으로 가장 적절한 회귀모형을 구하시오.</p></li>
 <li><p>그리고 (10), (11)의 결과를 비교하여라.</p></li>
 </ul>
+<div id="32e2003a-47f6-4338-8167-a1e580bd00da" class="cell" data-execution_count="25">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. 데이터 준비 (이미 정의되어 있다고 가정)</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co"># predictors: 독립변수 전체 후보군 (범주형 x4는 C(x4) 처리)</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>predictors <span class="op">=</span> [<span class="st">'log_x1'</span>, <span class="st">'x2'</span>, <span class="st">'x3'</span>, <span class="st">'C(x4)'</span>, <span class="st">'x5'</span>, <span class="st">'x6'</span>]</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>target <span class="op">=</span> <span class="st">'log_y'</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. 전진선택법 (Forward Selection)</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> forward_selection(data, target, predictors):</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    selected <span class="op">=</span> []</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    current_mse <span class="op">=</span> <span class="bu">float</span>(<span class="st">'inf'</span>)</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="va">True</span>:</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>        best_mse <span class="op">=</span> current_mse</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>        best_predictor <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> p <span class="kw">in</span> predictors:</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> p <span class="kw">not</span> <span class="kw">in</span> selected:</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>                formula <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>target<span class="sc">}</span><span class="ss"> ~ </span><span class="sc">{</span><span class="st">' + '</span><span class="sc">.</span>join(selected <span class="op">+</span> [p])<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>                fit <span class="op">=</span> smf.ols(formula, data<span class="op">=</span>data).fit()</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> fit.mse_resid <span class="op">&lt;</span> best_mse:</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>                    best_mse <span class="op">=</span> fit.mse_resid</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>                    best_predictor <span class="op">=</span> p</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> best_predictor:</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>            selected.append(best_predictor)</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>            current_mse <span class="op">=</span> best_mse</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>: <span class="cf">break</span></span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> selected, current_mse</span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. 후진제거법 (Backward Elimination)</span></span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> backward_elimination(data, target, predictors):</span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>    selected <span class="op">=</span> predictors.copy()</span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>    current_mse <span class="op">=</span> smf.ols(<span class="ss">f"</span><span class="sc">{</span>target<span class="sc">}</span><span class="ss"> ~ </span><span class="sc">{</span><span class="st">' + '</span><span class="sc">.</span>join(selected)<span class="sc">}</span><span class="ss">"</span>, data<span class="op">=</span>data).fit().mse_resid</span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="bu">len</span>(selected) <span class="op">&gt;</span> <span class="dv">1</span>:</span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>        best_mse <span class="op">=</span> current_mse</span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>        best_removal <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> p <span class="kw">in</span> selected:</span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>            temp <span class="op">=</span> [x <span class="cf">for</span> x <span class="kw">in</span> selected <span class="cf">if</span> x <span class="op">!=</span> p]</span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>            formula <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>target<span class="sc">}</span><span class="ss"> ~ </span><span class="sc">{</span><span class="st">' + '</span><span class="sc">.</span>join(temp)<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>            fit <span class="op">=</span> smf.ols(formula, data<span class="op">=</span>data).fit()</span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> fit.mse_resid <span class="op">&lt;</span> best_mse:</span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>                best_mse <span class="op">=</span> fit.mse_resid</span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a>                best_removal <span class="op">=</span> p</span>
+<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> best_removal:</span>
+<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a>            selected.remove(best_removal)</span>
+<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a>            current_mse <span class="op">=</span> best_mse</span>
+<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>: <span class="cf">break</span></span>
+<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> selected, current_mse</span>
+<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. 단계적 전진선택법 (Stepwise Selection)</span></span>
+<span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> stepwise_selection(data, target, predictors):</span>
+<span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a>    selected <span class="op">=</span> []</span>
+<span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a>    current_mse <span class="op">=</span> <span class="bu">float</span>(<span class="st">'inf'</span>)</span>
+<span id="cb6-53"><a href="#cb6-53" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="va">True</span>:</span>
+<span id="cb6-54"><a href="#cb6-54" aria-hidden="true" tabindex="-1"></a>        changed <span class="op">=</span> <span class="va">False</span></span>
+<span id="cb6-55"><a href="#cb6-55" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Forward Step</span></span>
+<span id="cb6-56"><a href="#cb6-56" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> p <span class="kw">in</span> predictors:</span>
+<span id="cb6-57"><a href="#cb6-57" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> p <span class="kw">not</span> <span class="kw">in</span> selected:</span>
+<span id="cb6-58"><a href="#cb6-58" aria-hidden="true" tabindex="-1"></a>                formula <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>target<span class="sc">}</span><span class="ss"> ~ </span><span class="sc">{</span><span class="st">' + '</span><span class="sc">.</span>join(selected <span class="op">+</span> [p])<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb6-59"><a href="#cb6-59" aria-hidden="true" tabindex="-1"></a>                fit <span class="op">=</span> smf.ols(formula, data<span class="op">=</span>data).fit()</span>
+<span id="cb6-60"><a href="#cb6-60" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> fit.mse_resid <span class="op">&lt;</span> current_mse:</span>
+<span id="cb6-61"><a href="#cb6-61" aria-hidden="true" tabindex="-1"></a>                    current_mse <span class="op">=</span> fit.mse_resid</span>
+<span id="cb6-62"><a href="#cb6-62" aria-hidden="true" tabindex="-1"></a>                    selected.append(p)</span>
+<span id="cb6-63"><a href="#cb6-63" aria-hidden="true" tabindex="-1"></a>                    changed <span class="op">=</span> <span class="va">True</span></span>
+<span id="cb6-64"><a href="#cb6-64" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Backward Step</span></span>
+<span id="cb6-65"><a href="#cb6-65" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">len</span>(selected) <span class="op">&gt;</span> <span class="dv">1</span>:</span>
+<span id="cb6-66"><a href="#cb6-66" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> p <span class="kw">in</span> selected:</span>
+<span id="cb6-67"><a href="#cb6-67" aria-hidden="true" tabindex="-1"></a>                temp <span class="op">=</span> [x <span class="cf">for</span> x <span class="kw">in</span> selected <span class="cf">if</span> x <span class="op">!=</span> p]</span>
+<span id="cb6-68"><a href="#cb6-68" aria-hidden="true" tabindex="-1"></a>                formula <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>target<span class="sc">}</span><span class="ss"> ~ </span><span class="sc">{</span><span class="st">' + '</span><span class="sc">.</span>join(temp)<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb6-69"><a href="#cb6-69" aria-hidden="true" tabindex="-1"></a>                fit <span class="op">=</span> smf.ols(formula, data<span class="op">=</span>data).fit()</span>
+<span id="cb6-70"><a href="#cb6-70" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> fit.mse_resid <span class="op">&lt;</span> current_mse:</span>
+<span id="cb6-71"><a href="#cb6-71" aria-hidden="true" tabindex="-1"></a>                    current_mse <span class="op">=</span> fit.mse_resid</span>
+<span id="cb6-72"><a href="#cb6-72" aria-hidden="true" tabindex="-1"></a>                    selected.remove(p)</span>
+<span id="cb6-73"><a href="#cb6-73" aria-hidden="true" tabindex="-1"></a>                    changed <span class="op">=</span> <span class="va">True</span></span>
+<span id="cb6-74"><a href="#cb6-74" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="kw">not</span> changed: <span class="cf">break</span></span>
+<span id="cb6-75"><a href="#cb6-75" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> selected, current_mse</span>
+<span id="cb6-76"><a href="#cb6-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-77"><a href="#cb6-77" aria-hidden="true" tabindex="-1"></a><span class="co"># [최종 실행 및 결과 출력]</span></span>
+<span id="cb6-78"><a href="#cb6-78" aria-hidden="true" tabindex="-1"></a>f_vars, f_mse <span class="op">=</span> forward_selection(data, target, predictors)</span>
+<span id="cb6-79"><a href="#cb6-79" aria-hidden="true" tabindex="-1"></a>b_vars, b_mse <span class="op">=</span> backward_elimination(data, target, predictors)</span>
+<span id="cb6-80"><a href="#cb6-80" aria-hidden="true" tabindex="-1"></a>s_vars, s_mse <span class="op">=</span> stepwise_selection(data, target, predictors)</span>
+<span id="cb6-81"><a href="#cb6-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-82"><a href="#cb6-82" aria-hidden="true" tabindex="-1"></a><span class="co">#print("--- [1-(11) 변수 선택 알고리즘 결과] ---")</span></span>
+<span id="cb6-83"><a href="#cb6-83" aria-hidden="true" tabindex="-1"></a><span class="co">#print(f"전진선택법: {f_vars}, MSE_p: {f_mse:.4f}")</span></span>
+<span id="cb6-84"><a href="#cb6-84" aria-hidden="true" tabindex="-1"></a><span class="co">#print(f"후진제거법: {b_vars}, MSE_p: {b_mse:.4f}")</span></span>
+<span id="cb6-85"><a href="#cb6-85" aria-hidden="true" tabindex="-1"></a><span class="co">#print(f"단계적 선택: {s_vars}, MSE_p: {s_mse:.4f}")</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <table class="table">
 <thead>
 <tr class="header">
@@ -811,6 +1047,43 @@ if (outputEl) {{
 <div class="tab-content">
 <div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
 <div id="20efbefd-14a2-4085-b5b7-bb5728baf635" class="cell" data-execution_count="26">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> t</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. 통계량 계산</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>final_fit <span class="op">=</span> smf.ols(<span class="st">'log_y ~ log_x1 + x2 + x6'</span>, data<span class="op">=</span>data).fit()</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="bu">int</span>(final_fit.nobs)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>p_plus_1 <span class="op">=</span> <span class="bu">int</span>(final_fit.df_model <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>r_student <span class="op">=</span> final_fit.get_influence().resid_studentized_external</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>t_crit <span class="op">=</span> t.ppf(<span class="fl">0.975</span>, n <span class="op">-</span> p_plus_1 <span class="op">-</span> <span class="dv">1</span>)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. 이상치 인덱스 자동 탐색</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>outlier_indices <span class="op">=</span> np.where(<span class="bu">abs</span>(r_student) <span class="op">&gt;=</span> t_crit)[<span class="dv">0</span>]</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. 시각화</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">5</span>))</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="co"># 전체 데이터를 기본 색상으로 그리기</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>plt.stem(<span class="bu">range</span>(n), r_student, basefmt<span class="op">=</span><span class="st">" "</span>, linefmt<span class="op">=</span><span class="st">"C0-"</span>, markerfmt<span class="op">=</span><span class="st">"C0o"</span>)</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="co"># 이상치만 빨간색으로 덮어쓰기 (겹쳐 그리기)</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">len</span>(outlier_indices) <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>    plt.stem(outlier_indices, r_student[outlier_indices], </span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>             basefmt<span class="op">=</span><span class="st">" "</span>, linefmt<span class="op">=</span><span class="st">"r-"</span>, markerfmt<span class="op">=</span><span class="st">"ro"</span>, label<span class="op">=</span><span class="st">'Outliers'</span>)</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 이상치 인덱스 라벨링</span></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> idx <span class="kw">in</span> outlier_indices:</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>        plt.text(idx, r_student[idx], <span class="ss">f' </span><span class="sc">{</span>idx<span class="sc">}</span><span class="ss">'</span>, color<span class="op">=</span><span class="st">'red'</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a><span class="co"># 임계선 추가</span></span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>plt.axhline(t_crit, color<span class="op">=</span><span class="st">'red'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, label<span class="op">=</span><span class="ss">f'Threshold: ±</span><span class="sc">{</span>t_crit<span class="sc">:.2f}</span><span class="ss">'</span>)</span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>plt.axhline(<span class="op">-</span>t_crit, color<span class="op">=</span><span class="st">'red'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>)</span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Outliers Detection (R-student Residuals)'</span>)</span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Observation Index'</span>)</span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'R-student Residual'</span>)</span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -827,6 +1100,40 @@ if (outputEl) {{
 </div>
 <div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
 <div id="b5e69942-578c-48cf-9488-e66edeca15f0" class="cell" data-execution_count="27">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. 계산</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="bu">int</span>(final_fit.nobs)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>p_plus_1 <span class="op">=</span> <span class="bu">int</span>(final_fit.df_model <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>hat_diag <span class="op">=</span> final_fit.get_influence().hat_matrix_diag</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>h_crit <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> p_plus_1 <span class="op">/</span> n</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. 지렛대점 인덱스 자동 탐색</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>leverage_indices <span class="op">=</span> np.where(hat_diag <span class="op">&gt;</span> h_crit)[<span class="dv">0</span>]</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. 시각화</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">5</span>))</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="co"># 전체 데이터를 기본 색상으로 그리기</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>plt.stem(<span class="bu">range</span>(n), hat_diag, basefmt<span class="op">=</span><span class="st">" "</span>, linefmt<span class="op">=</span><span class="st">"C0-"</span>, markerfmt<span class="op">=</span><span class="st">"C0o"</span>)</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="co"># 지렛대점만 주황색으로 덮어쓰기 (겹쳐 그리기)</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">len</span>(leverage_indices) <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>    plt.stem(leverage_indices, hat_diag[leverage_indices], </span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>             basefmt<span class="op">=</span><span class="st">" "</span>, linefmt<span class="op">=</span><span class="st">"C1-"</span>, markerfmt<span class="op">=</span><span class="st">"C1o"</span>, label<span class="op">=</span><span class="st">'Leverage Points'</span>)</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 인덱스 라벨링</span></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> idx <span class="kw">in</span> leverage_indices:</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>        plt.text(idx, hat_diag[idx], <span class="ss">f' </span><span class="sc">{</span>idx<span class="sc">}</span><span class="ss">'</span>, color<span class="op">=</span><span class="st">'darkorange'</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a><span class="co"># 임계선 추가</span></span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>plt.axhline(h_crit, color<span class="op">=</span><span class="st">'red'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, label<span class="op">=</span><span class="ss">f'Threshold=</span><span class="sc">{</span>h_crit<span class="sc">:.3f}</span><span class="ss">'</span>)</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Leverage Points Detection (Hat Values)'</span>)</span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Observation Index'</span>)</span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Hat Value ($h_</span><span class="sc">{ii}</span><span class="st">$)'</span>)</span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -842,6 +1149,41 @@ if (outputEl) {{
 </div>
 <div id="tabset-2-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-3-tab">
 <div id="865900dd-ed0a-4f4d-906c-4d951fb0e8aa" class="cell" data-execution_count="28">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> f</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. 계산</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="bu">int</span>(final_fit.nobs)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>p_plus_1 <span class="op">=</span> <span class="bu">int</span>(final_fit.df_model <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>cooks_d <span class="op">=</span> final_fit.get_influence().cooks_distance[<span class="dv">0</span>]</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>d_crit <span class="op">=</span> f.ppf(<span class="fl">0.5</span>, p_plus_1, n <span class="op">-</span> p_plus_1)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. 영향점 인덱스 자동 탐색</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>influential_indices <span class="op">=</span> np.where(cooks_d <span class="op">&gt;=</span> d_crit)[<span class="dv">0</span>]</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. 시각화</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">5</span>))</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="co"># 전체 데이터를 기본 색상으로 그리기</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>plt.stem(<span class="bu">range</span>(n), cooks_d, basefmt<span class="op">=</span><span class="st">" "</span>, linefmt<span class="op">=</span><span class="st">"C0-"</span>, markerfmt<span class="op">=</span><span class="st">"C0o"</span>)</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a><span class="co"># 영향점만 녹색으로 덮어쓰기 (겹쳐 그리기)</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">len</span>(influential_indices) <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>    plt.stem(influential_indices, cooks_d[influential_indices], </span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>             basefmt<span class="op">=</span><span class="st">" "</span>, linefmt<span class="op">=</span><span class="st">"C2-"</span>, markerfmt<span class="op">=</span><span class="st">"C2o"</span>, label<span class="op">=</span><span class="st">'Influential Points'</span>)</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 인덱스 라벨링</span></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> idx <span class="kw">in</span> influential_indices:</span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>        plt.text(idx, cooks_d[idx], <span class="ss">f' </span><span class="sc">{</span>idx<span class="sc">}</span><span class="ss">'</span>, color<span class="op">=</span><span class="st">'green'</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a><span class="co"># 임계선 추가</span></span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>plt.axhline(d_crit, color<span class="op">=</span><span class="st">'green'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, label<span class="op">=</span><span class="ss">f'Threshold=</span><span class="sc">{</span>d_crit<span class="sc">:.3f}</span><span class="ss">'</span>)</span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Influential Points Detection (Cook's Distance)"</span>)</span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Observation Index'</span>)</span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Cook's Distance ($D_i$)"</span>)</span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -994,6 +1336,20 @@ if (outputEl) {{
 <li><strong>귀무가설 (<span class="math inline">\(H_0\)</span>)</strong>: <span class="math inline">\(\beta_1= \beta_2= \dots\beta_{10} = 0\)</span></li>
 <li><strong>대립가설 (<span class="math inline">\(H_1\)</span>)</strong>: 적어도 하나의 <span class="math inline">\(\beta_j \neq 0 \quad (j=1,\dots,6)\)</span></li>
 </ul>
+<div id="63be9fd8-4549-4879-8f57-282d8abce099" class="cell" data-execution_count="29">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 데이터 로드</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">'data/ames_graduate_homework.csv'</span>)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 회귀 모형 적합 (종속변수: SalePrice, 설명변수 10개)</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>formula <span class="op">=</span> <span class="st">'SalePrice ~ GrLivArea + TotalBsmtSF + FirstFlrSF + SecondFlrSF + GarageCars + GarageArea + YearBuilt + FullBath + TotRmsAbvGrd + CentralAir'</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> smf.ols(formula, data<span class="op">=</span>df).fit()</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 결과 출력</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="co">#print(model.summary())</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <table class="table">
 <thead>
 <tr class="header">
@@ -1045,6 +1401,19 @@ if (outputEl) {{
 <section id="section-12" class="level2">
 <h2 class="anchored" data-anchor-id="section-12">2-(3)</h2>
 <p>VIF(분산팽창지수)를 이용하여 다중공선성이 존재하는지 진단하고 다중공선성이 발생한 이유를 설명하여라. 그리고 해결 방법을 제시하여라.</p>
+<div id="996637f7-0a88-434b-aff2-7cc41112f514" class="cell" data-execution_count="30">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels.stats.outliers_influence <span class="im">import</span> variance_inflation_factor</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> df[[<span class="st">'GrLivArea'</span>, <span class="st">'TotalBsmtSF'</span>, <span class="st">'FirstFlrSF'</span>, <span class="st">'SecondFlrSF'</span>, </span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>        <span class="st">'GarageCars'</span>, <span class="st">'GarageArea'</span>, <span class="st">'YearBuilt'</span>, <span class="st">'FullBath'</span>, </span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>        <span class="st">'TotRmsAbvGrd'</span>, <span class="st">'CentralAir'</span>]]</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>vif_data <span class="op">=</span> pd.DataFrame()</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>vif_data[<span class="st">"feature"</span>] <span class="op">=</span> X.columns</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>vif_data[<span class="st">"VIF"</span>] <span class="op">=</span> [variance_inflation_factor(X.values, i) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(X.columns))]</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="co">#print(vif_data)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <p><code>1</code> 다중공선성 진단</p>
 <ul>
 <li><span class="math inline">\(VIF_j\)</span>가 10이상일 경우 다중공선성이 있다고 판단.</li>
@@ -1119,6 +1488,24 @@ if (outputEl) {{
 <section id="section-13" class="level2">
 <h2 class="anchored" data-anchor-id="section-13">2-(4)</h2>
 <p>“ames homework reduced.csv” 는 위의 데이터 중 200개만 임의로 샘플링한 데이터이다. 이를 가지고 회귀모형을 적합하여라.</p>
+<div id="9c492bd6-49ca-47a0-b696-39df0f3fc4e1" class="cell" data-execution_count="31">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>df_reduced <span class="op">=</span> pd.read_csv(<span class="st">"data/ames_graduate_homework_reduced.csv"</span>)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>X_cols <span class="op">=</span> [<span class="st">'GrLivArea'</span>, <span class="st">'TotalBsmtSF'</span>, <span class="st">'FirstFlrSF'</span>, <span class="st">'SecondFlrSF'</span>, </span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>          <span class="st">'GarageCars'</span>, <span class="st">'GarageArea'</span>, <span class="st">'YearBuilt'</span>, <span class="st">'FullBath'</span>, </span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>          <span class="st">'TotRmsAbvGrd'</span>, <span class="st">'CentralAir'</span>]</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>X_reduced <span class="op">=</span> df_reduced[X_cols]</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>y_reduced <span class="op">=</span> df_reduced[<span class="st">'SalePrice'</span>]</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>X_reduced_with_const <span class="op">=</span> sm.add_constant(X_reduced)</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>model_reduced <span class="op">=</span> sm.OLS(y_reduced, X_reduced_with_const).fit()</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="co">#print(model_reduced.summary())</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <p><code>1</code> 분산분석표</p>
 <ul>
 <li><strong>귀무가설 (<span class="math inline">\(H_0\)</span>)</strong>: <span class="math inline">\(\beta_1= \beta_2= \dots\beta_{10} = 0\)</span></li>
@@ -1177,6 +1564,20 @@ if (outputEl) {{
 <h2 class="anchored" data-anchor-id="section-14">2-(5), (6)</h2>
 <p>VIF(분산팽창지수)를 이용하여 다중공선성이 존재하는지 진단하고, (3)의 결과와 비교하여라.</p>
 <p>이후, 원래 데이터와, 200개로 축소한 데이터를 이용한 회귀모형 적합 결과가 차이나는 이유는 무엇인지 설명해라.</p>
+<div id="dbe78a8d-581e-4d72-ae84-8afe16bee71f" class="cell" data-execution_count="32">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels.stats.outliers_influence <span class="im">import</span> variance_inflation_factor</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>X_reduced <span class="op">=</span> df_reduced[[<span class="st">'GrLivArea'</span>, <span class="st">'TotalBsmtSF'</span>, <span class="st">'FirstFlrSF'</span>, <span class="st">'SecondFlrSF'</span>, </span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'GarageCars'</span>, <span class="st">'GarageArea'</span>, <span class="st">'YearBuilt'</span>, <span class="st">'FullBath'</span>, </span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'TotRmsAbvGrd'</span>, <span class="st">'CentralAir'</span>]]</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>vif_data_reduced <span class="op">=</span> pd.DataFrame()</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>vif_data_reduced[<span class="st">"변수명"</span>] <span class="op">=</span> X_reduced.columns</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>vif_data_reduced[<span class="st">"VIF (n=200)"</span>] <span class="op">=</span> [variance_inflation_factor(X_reduced.values, i) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(X_reduced.columns))]</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="co">#print(vif_data_reduced)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <p><code>1</code> 다중공선성 비교 분석표</p>
 <table class="table">
 <colgroup>
@@ -1448,6 +1849,77 @@ if (outputEl) {{
 <section id="section-15" class="level2">
 <h2 class="anchored" data-anchor-id="section-15">2-(7)</h2>
 <p>(2), (4) 모형에 대한 AIC 기준의 단계적 선택법을 이용한 변수 선택을 수행하여라. 결과가 동일한가? 동일하지 않다면 그 이유는 무엇이라고 생각되는가?</p>
+<div id="625dc34f-c2b8-4527-976b-2a3512087c09" class="cell" data-execution_count="33">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> stepwise_selection_aic(X, y):</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    best_features <span class="op">=</span> []</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="va">True</span>:</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>        changed <span class="op">=</span> <span class="va">False</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>        remaining_features <span class="op">=</span> <span class="bu">list</span>(<span class="bu">set</span>(X.columns) <span class="op">-</span> <span class="bu">set</span>(best_features))</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>        best_aic <span class="op">=</span> sm.OLS(y, sm.add_constant(X[best_features])).fit().aic <span class="cf">if</span> best_features <span class="cf">else</span> <span class="bu">float</span>(<span class="st">'inf'</span>)</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>        best_feature_to_add <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> feature <span class="kw">in</span> remaining_features:</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>            model <span class="op">=</span> sm.OLS(y, sm.add_constant(X[best_features <span class="op">+</span> [feature]])).fit()</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> model.aic <span class="op">&lt;</span> best_aic:</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>                best_aic <span class="op">=</span> model.aic</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>                best_feature_to_add <span class="op">=</span> feature</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>                </span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> best_feature_to_add <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>            best_features.append(best_feature_to_add)</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>            changed <span class="op">=</span> <span class="va">True</span></span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>        best_aic <span class="op">=</span> sm.OLS(y, sm.add_constant(X[best_features])).fit().aic</span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>        best_feature_to_remove <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> feature <span class="kw">in</span> best_features:</span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>            features_without <span class="op">=</span> <span class="bu">list</span>(<span class="bu">set</span>(best_features) <span class="op">-</span> {feature})</span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="kw">not</span> features_without: <span class="cf">continue</span></span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>            model <span class="op">=</span> sm.OLS(y, sm.add_constant(X[features_without])).fit()</span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> model.aic <span class="op">&lt;</span> best_aic:</span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a>                best_aic <span class="op">=</span> model.aic</span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a>                best_feature_to_remove <span class="op">=</span> feature</span>
+<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a>                </span>
+<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> best_feature_to_remove <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a>            best_features.remove(best_feature_to_remove)</span>
+<span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a>            changed <span class="op">=</span> <span class="va">True</span></span>
+<span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb14-38"><a href="#cb14-38" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="kw">not</span> changed:</span>
+<span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span></span>
+<span id="cb14-40"><a href="#cb14-40" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb14-41"><a href="#cb14-41" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> best_features</span>
+<span id="cb14-42"><a href="#cb14-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-43"><a href="#cb14-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-44"><a href="#cb14-44" aria-hidden="true" tabindex="-1"></a>df_full <span class="op">=</span> pd.read_csv(<span class="st">'data/ames_graduate_homework.csv'</span>)</span>
+<span id="cb14-45"><a href="#cb14-45" aria-hidden="true" tabindex="-1"></a>df_reduced <span class="op">=</span> pd.read_csv(<span class="st">'data/ames_graduate_homework_reduced.csv'</span>)</span>
+<span id="cb14-46"><a href="#cb14-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-47"><a href="#cb14-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-48"><a href="#cb14-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-49"><a href="#cb14-49" aria-hidden="true" tabindex="-1"></a>features <span class="op">=</span> [<span class="st">'GrLivArea'</span>, <span class="st">'TotalBsmtSF'</span>, <span class="st">'FirstFlrSF'</span>, <span class="st">'SecondFlrSF'</span>, </span>
+<span id="cb14-50"><a href="#cb14-50" aria-hidden="true" tabindex="-1"></a>            <span class="st">'GarageCars'</span>, <span class="st">'GarageArea'</span>, <span class="st">'YearBuilt'</span>, <span class="st">'FullBath'</span>, </span>
+<span id="cb14-51"><a href="#cb14-51" aria-hidden="true" tabindex="-1"></a>            <span class="st">'TotRmsAbvGrd'</span>, <span class="st">'CentralAir'</span>]</span>
+<span id="cb14-52"><a href="#cb14-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-53"><a href="#cb14-53" aria-hidden="true" tabindex="-1"></a>X_full <span class="op">=</span> df_full[features]</span>
+<span id="cb14-54"><a href="#cb14-54" aria-hidden="true" tabindex="-1"></a>y_full <span class="op">=</span> df_full[<span class="st">'SalePrice'</span>]</span>
+<span id="cb14-55"><a href="#cb14-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-56"><a href="#cb14-56" aria-hidden="true" tabindex="-1"></a>X_reduced <span class="op">=</span> df_reduced[features]</span>
+<span id="cb14-57"><a href="#cb14-57" aria-hidden="true" tabindex="-1"></a>y_reduced <span class="op">=</span> df_reduced[<span class="st">'SalePrice'</span>]</span>
+<span id="cb14-58"><a href="#cb14-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-59"><a href="#cb14-59" aria-hidden="true" tabindex="-1"></a>best_full <span class="op">=</span> stepwise_selection_aic(X_full, y_full)</span>
+<span id="cb14-60"><a href="#cb14-60" aria-hidden="true" tabindex="-1"></a>best_reduced <span class="op">=</span> stepwise_selection_aic(X_reduced, y_reduced)</span>
+<span id="cb14-61"><a href="#cb14-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-62"><a href="#cb14-62" aria-hidden="true" tabindex="-1"></a>model_full_final <span class="op">=</span> sm.OLS(y_full, sm.add_constant(X_full[best_full])).fit()</span>
+<span id="cb14-63"><a href="#cb14-63" aria-hidden="true" tabindex="-1"></a>model_reduced_final <span class="op">=</span> sm.OLS(y_reduced, sm.add_constant(X_reduced[best_reduced])).fit()</span>
+<span id="cb14-64"><a href="#cb14-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-65"><a href="#cb14-65" aria-hidden="true" tabindex="-1"></a><span class="co">#print("=== [전체 데이터 n=2928] 최종 모형 회귀계수 ===")</span></span>
+<span id="cb14-66"><a href="#cb14-66" aria-hidden="true" tabindex="-1"></a><span class="co">#print(model_full_final.params.round(1))</span></span>
+<span id="cb14-67"><a href="#cb14-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-68"><a href="#cb14-68" aria-hidden="true" tabindex="-1"></a><span class="co">#print("\n=== [축소 데이터 n=200] 최종 모형 회귀계수 ===")</span></span>
+<span id="cb14-69"><a href="#cb14-69" aria-hidden="true" tabindex="-1"></a><span class="co">#print(model_reduced_final.params.round(1))</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <p><code>1</code> 적합된 모형</p>
 <p><span class="math display">\[\hat{y}_{full} = -1,311\text{천} + 36 x_1 + 39 x_2 + 51 x_3 + 46 x_4 + 13,628 x_5 + 26 x_6 + 668 x_7 - 4,701 x_8 - 3,646 x_9\]</span></p>
 <p><span class="math display">\[\hat{y}_{reduced} = -1,463\text{천} + 100 x_1 + 47 x_2 + 29 x_6 + 754 x_7 - 11,844 x_8 - 5,778 x_9\]</span></p>
@@ -1584,11 +2056,137 @@ if (outputEl) {{
 <section id="section-16" class="level2">
 <h2 class="anchored" data-anchor-id="section-16">2-(8)</h2>
 <p>(2), (4) 모형에 대해 Ridge 및 Lasso 모형을 적합하여라.</p>
+<div id="584d1ede-f2eb-4f15-9843-d64e28ba2029" class="cell" data-execution_count="34">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> RidgeCV, LassoCV</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> Ridge, LassoCV</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> GridSearchCV</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. 데이터 불러오기</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>df_full <span class="op">=</span> pd.read_csv(<span class="st">'data/ames_graduate_homework.csv'</span>)</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>df_reduced <span class="op">=</span> pd.read_csv(<span class="st">'data/ames_graduate_homework_reduced.csv'</span>)</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="co"># (안전장치) CentralAir가 'Y', 'N' 문자열일 경우 더미화</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> df_full[<span class="st">'CentralAir'</span>].dtype <span class="op">==</span> <span class="st">'object'</span>:</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>    df_full[<span class="st">'CentralAir'</span>] <span class="op">=</span> df_full[<span class="st">'CentralAir'</span>].<span class="bu">map</span>({<span class="st">'Y'</span>: <span class="dv">1</span>, <span class="st">'N'</span>: <span class="dv">0</span>})</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>    df_reduced[<span class="st">'CentralAir'</span>] <span class="op">=</span> df_reduced[<span class="st">'CentralAir'</span>].<span class="bu">map</span>({<span class="st">'Y'</span>: <span class="dv">1</span>, <span class="st">'N'</span>: <span class="dv">0</span>})</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. 독립변수(X)와 종속변수(y) 분리</span></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>features <span class="op">=</span> [<span class="st">'GrLivArea'</span>, <span class="st">'TotalBsmtSF'</span>, <span class="st">'FirstFlrSF'</span>, <span class="st">'SecondFlrSF'</span>, </span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>            <span class="st">'GarageCars'</span>, <span class="st">'GarageArea'</span>, <span class="st">'YearBuilt'</span>, <span class="st">'FullBath'</span>, </span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>            <span class="st">'TotRmsAbvGrd'</span>, <span class="st">'CentralAir'</span>]</span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>X_full <span class="op">=</span> df_full[features]</span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>y_full <span class="op">=</span> df_full[<span class="st">'SalePrice'</span>]</span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>X_reduced <span class="op">=</span> df_reduced[features]</span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>y_reduced <span class="op">=</span> df_reduced[<span class="st">'SalePrice'</span>]</span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. 데이터 스케일링 (표준화)</span></span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a>scaler_full <span class="op">=</span> StandardScaler()</span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a>X_full_scaled <span class="op">=</span> pd.DataFrame(scaler_full.fit_transform(X_full), columns<span class="op">=</span>features)</span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a>scaler_reduced <span class="op">=</span> StandardScaler()</span>
+<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a>X_reduced_scaled <span class="op">=</span> pd.DataFrame(scaler_reduced.fit_transform(X_reduced), columns<span class="op">=</span>features)</span>
+<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. 교차검증을 통한 최적의 alpha(lambda) 탐색 및 모형 적합</span></span>
+<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a>alphas <span class="op">=</span> np.logspace(<span class="op">-</span><span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">200</span>)</span>
+<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a><span class="co"># [오류 방지!] Ridge는 버전에 상관없이 안전한 GridSearchCV를 사용합니다.</span></span>
+<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a>ridge_grid_full <span class="op">=</span> GridSearchCV(Ridge(), param_grid<span class="op">=</span>{<span class="st">'alpha'</span>: alphas}, cv<span class="op">=</span><span class="dv">5</span>, scoring<span class="op">=</span><span class="st">'neg_mean_squared_error'</span>)</span>
+<span id="cb15-40"><a href="#cb15-40" aria-hidden="true" tabindex="-1"></a>ridge_grid_full.fit(X_full_scaled, y_full)</span>
+<span id="cb15-41"><a href="#cb15-41" aria-hidden="true" tabindex="-1"></a>ridge_mse_full <span class="op">=</span> <span class="op">-</span>ridge_grid_full.cv_results_[<span class="st">'mean_test_score'</span>]  <span class="co"># 음수 MSE를 양수로 변환</span></span>
+<span id="cb15-42"><a href="#cb15-42" aria-hidden="true" tabindex="-1"></a>ridge_alpha_full <span class="op">=</span> ridge_grid_full.best_params_[<span class="st">'alpha'</span>]</span>
+<span id="cb15-43"><a href="#cb15-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-44"><a href="#cb15-44" aria-hidden="true" tabindex="-1"></a>ridge_grid_reduced <span class="op">=</span> GridSearchCV(Ridge(), param_grid<span class="op">=</span>{<span class="st">'alpha'</span>: alphas}, cv<span class="op">=</span><span class="dv">5</span>, scoring<span class="op">=</span><span class="st">'neg_mean_squared_error'</span>)</span>
+<span id="cb15-45"><a href="#cb15-45" aria-hidden="true" tabindex="-1"></a>ridge_grid_reduced.fit(X_reduced_scaled, y_reduced)</span>
+<span id="cb15-46"><a href="#cb15-46" aria-hidden="true" tabindex="-1"></a>ridge_mse_reduced <span class="op">=</span> <span class="op">-</span>ridge_grid_reduced.cv_results_[<span class="st">'mean_test_score'</span>]</span>
+<span id="cb15-47"><a href="#cb15-47" aria-hidden="true" tabindex="-1"></a>ridge_alpha_reduced <span class="op">=</span> ridge_grid_reduced.best_params_[<span class="st">'alpha'</span>]</span>
+<span id="cb15-48"><a href="#cb15-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-49"><a href="#cb15-49" aria-hidden="true" tabindex="-1"></a><span class="co"># Lasso는 자체 CV 모듈이 안정적이므로 그대로 사용합니다. (cv=5 추가)</span></span>
+<span id="cb15-50"><a href="#cb15-50" aria-hidden="true" tabindex="-1"></a>lasso_full <span class="op">=</span> LassoCV(alphas<span class="op">=</span>alphas, cv<span class="op">=</span><span class="dv">5</span>, max_iter<span class="op">=</span><span class="dv">100000</span>, random_state<span class="op">=</span><span class="dv">42</span>).fit(X_full_scaled, y_full)</span>
+<span id="cb15-51"><a href="#cb15-51" aria-hidden="true" tabindex="-1"></a>lasso_reduced <span class="op">=</span> LassoCV(alphas<span class="op">=</span>alphas, cv<span class="op">=</span><span class="dv">5</span>, max_iter<span class="op">=</span><span class="dv">100000</span>, random_state<span class="op">=</span><span class="dv">42</span>).fit(X_reduced_scaled, y_reduced)</span>
+<span id="cb15-52"><a href="#cb15-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-53"><a href="#cb15-53" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. 결과 출력 함수</span></span>
+<span id="cb15-54"><a href="#cb15-54" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> print_results(model_name, best_alpha, best_coef, features):</span>
+<span id="cb15-55"><a href="#cb15-55" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"=== </span><span class="sc">{</span>model_name<span class="sc">}</span><span class="ss"> ==="</span>)</span>
+<span id="cb15-56"><a href="#cb15-56" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"최적의 alpha (패널티 강도): </span><span class="sc">{</span>best_alpha<span class="sc">:.2f}</span><span class="ss">"</span>)</span>
+<span id="cb15-57"><a href="#cb15-57" aria-hidden="true" tabindex="-1"></a>    coef_series <span class="op">=</span> pd.Series(best_coef, index<span class="op">=</span>features).<span class="bu">round</span>(<span class="dv">1</span>)</span>
+<span id="cb15-58"><a href="#cb15-58" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(coef_series)</span>
+<span id="cb15-59"><a href="#cb15-59" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>()</span>
+<span id="cb15-60"><a href="#cb15-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-61"><a href="#cb15-61" aria-hidden="true" tabindex="-1"></a><span class="co"># 결과 텍스트 출력</span></span>
+<span id="cb15-62"><a href="#cb15-62" aria-hidden="true" tabindex="-1"></a><span class="co">#print_results("[전체 데이터 n=2928] Ridge 모형", ridge_alpha_full, ridge_grid_full.best_estimator_.coef_, features)</span></span>
+<span id="cb15-63"><a href="#cb15-63" aria-hidden="true" tabindex="-1"></a><span class="co">#print_results("[전체 데이터 n=2928] Lasso 모형", lasso_full.alpha_, lasso_full.coef_, features)</span></span>
+<span id="cb15-64"><a href="#cb15-64" aria-hidden="true" tabindex="-1"></a><span class="co">#print_results("[축소 데이터 n=200] Ridge 모형", ridge_alpha_reduced, ridge_grid_reduced.best_estimator_.coef_, features)</span></span>
+<span id="cb15-65"><a href="#cb15-65" aria-hidden="true" tabindex="-1"></a><span class="co">#print_results("[축소 데이터 n=200] Lasso 모형", lasso_reduced.alpha_, lasso_reduced.coef_, features)</span></span>
+<span id="cb15-66"><a href="#cb15-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-67"><a href="#cb15-67" aria-hidden="true" tabindex="-1"></a><span class="co"># ==========================================</span></span>
+<span id="cb15-68"><a href="#cb15-68" aria-hidden="true" tabindex="-1"></a><span class="co"># 6. 2x2 교차검증 오차(MSE) 시각화 그리기</span></span>
+<span id="cb15-69"><a href="#cb15-69" aria-hidden="true" tabindex="-1"></a><span class="co"># ==========================================</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true" href="">회귀계수 변화량</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false" href="">MSE 변화량</a></li></ul>
 <div class="tab-content">
 <div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
 <div id="6bebf2ec-18e5-4276-9cc2-fe13b3d6c7c1" class="cell" data-execution_count="35">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ==========================================</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 7. 회귀계수(Beta) 축소 경로 시각화 추가</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ==========================================</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> Ridge, Lasso </span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">'ignore'</span>)</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. 각 alpha(lambda)에 따른 회귀계수 저장을 위한 리스트 준비</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>coefs_ridge_full, coefs_lasso_full <span class="op">=</span> [], []</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>coefs_ridge_reduced, coefs_lasso_reduced <span class="op">=</span> [], []</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. alpha를 순회하며 모형 적합 및 계수 추출</span></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> a <span class="kw">in</span> alphas:</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Ridge</span></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>    coefs_ridge_full.append(Ridge(alpha<span class="op">=</span>a).fit(X_full_scaled, y_full).coef_)</span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>    coefs_ridge_reduced.append(Ridge(alpha<span class="op">=</span>a).fit(X_reduced_scaled, y_reduced).coef_)</span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Lasso</span></span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>    coefs_lasso_full.append(Lasso(alpha<span class="op">=</span>a, max_iter<span class="op">=</span><span class="dv">10000</span>).fit(X_full_scaled, y_full).coef_)</span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>    coefs_lasso_reduced.append(Lasso(alpha<span class="op">=</span>a, max_iter<span class="op">=</span><span class="dv">10000</span>).fit(X_reduced_scaled, y_reduced).coef_)</span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. 2x2 그래프 시각화 설정</span></span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">14</span>, <span class="dv">8</span>)) <span class="co"># 범례를 위해 가로 길이를 살짝 넓힘</span></span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>fig.suptitle(<span class="st">'Coefficient Paths vs. log(</span><span class="ch">\u03BB</span><span class="st">)'</span>, fontsize<span class="op">=</span><span class="dv">16</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>, y<span class="op">=</span><span class="fl">0.98</span>)</span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_coef_path(ax, alphas_array, coefs_array, optimal_alpha, title, features_list):</span>
+<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 각 변수별 회귀계수 선 그리기 (범례 라벨 추가)</span></span>
+<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a>    lines <span class="op">=</span> ax.plot(np.log10(alphas_array), coefs_array)</span>
+<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i, line <span class="kw">in</span> <span class="bu">enumerate</span>(lines):</span>
+<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a>        line.set_label(features_list[i])</span>
+<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 최적의 람다 위치에 수직 점선 표시</span></span>
+<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a>    ax.axvline(np.log10(optimal_alpha), linestyle<span class="op">=</span><span class="st">'--'</span>, color<span class="op">=</span><span class="st">'k'</span>, linewidth<span class="op">=</span><span class="dv">2</span>, </span>
+<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a>               label<span class="op">=</span><span class="ss">f'Optimal </span><span class="ch">\u03BB</span><span class="ss"> = </span><span class="sc">{</span>optimal_alpha<span class="sc">:.2f}</span><span class="ss">'</span>)</span>
+<span id="cb16-38"><a href="#cb16-38" aria-hidden="true" tabindex="-1"></a>    ax.axhline(<span class="dv">0</span>, color<span class="op">=</span><span class="st">'gray'</span>, linestyle<span class="op">=</span><span class="st">'-'</span>, linewidth<span class="op">=</span><span class="dv">1</span>) <span class="co"># 0 기준선</span></span>
+<span id="cb16-39"><a href="#cb16-39" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb16-40"><a href="#cb16-40" aria-hidden="true" tabindex="-1"></a>    ax.set_title(title, fontsize<span class="op">=</span><span class="dv">12</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
+<span id="cb16-41"><a href="#cb16-41" aria-hidden="true" tabindex="-1"></a>    ax.set_xlabel(<span class="vs">r'</span><span class="dv">$</span><span class="er">\</span><span class="vs">log</span><span class="kw">(</span><span class="er">\</span><span class="vs">lambda</span><span class="kw">)</span><span class="dv">$</span><span class="vs">'</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb16-42"><a href="#cb16-42" aria-hidden="true" tabindex="-1"></a>    ax.set_ylabel(<span class="vs">r'</span><span class="dv">$\b</span><span class="vs">eta</span><span class="dv">$</span><span class="vs">'</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb16-43"><a href="#cb16-43" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb16-44"><a href="#cb16-44" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 범례가 그래프 선을 가리지 않도록 위치 조정</span></span>
+<span id="cb16-45"><a href="#cb16-45" aria-hidden="true" tabindex="-1"></a>    ax.legend(loc<span class="op">=</span><span class="st">'upper right'</span>, fontsize<span class="op">=</span><span class="dv">8</span>, bbox_to_anchor<span class="op">=</span>(<span class="fl">1.0</span>, <span class="fl">1.0</span>))</span>
+<span id="cb16-46"><a href="#cb16-46" aria-hidden="true" tabindex="-1"></a>    ax.grid(<span class="va">True</span>, linestyle<span class="op">=</span><span class="st">':'</span>, alpha<span class="op">=</span><span class="fl">0.6</span>)</span>
+<span id="cb16-47"><a href="#cb16-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-48"><a href="#cb16-48" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. 그래프 그리기 (이전 코드에서 정의된 alphas, ridge_alpha_full 등의 변수를 그대로 사용)</span></span>
+<span id="cb16-49"><a href="#cb16-49" aria-hidden="true" tabindex="-1"></a>plot_coef_path(axes[<span class="dv">0</span>, <span class="dv">0</span>], alphas, coefs_ridge_full, ridge_alpha_full, <span class="st">"[Full Data n=2928] Ridge Model"</span>, features)</span>
+<span id="cb16-50"><a href="#cb16-50" aria-hidden="true" tabindex="-1"></a>plot_coef_path(axes[<span class="dv">0</span>, <span class="dv">1</span>], alphas, coefs_lasso_full, lasso_full.alpha_, <span class="st">"[Full Data n=2928] Lasso Model"</span>, features)</span>
+<span id="cb16-51"><a href="#cb16-51" aria-hidden="true" tabindex="-1"></a>plot_coef_path(axes[<span class="dv">1</span>, <span class="dv">0</span>], alphas, coefs_ridge_reduced, ridge_alpha_reduced, <span class="st">"[Reduced Data n=200] Ridge Model"</span>, features)</span>
+<span id="cb16-52"><a href="#cb16-52" aria-hidden="true" tabindex="-1"></a>plot_coef_path(axes[<span class="dv">1</span>, <span class="dv">1</span>], alphas, coefs_lasso_reduced, lasso_reduced.alpha_, <span class="st">"[Reduced Data n=200] Lasso Model"</span>, features)</span>
+<span id="cb16-53"><a href="#cb16-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-54"><a href="#cb16-54" aria-hidden="true" tabindex="-1"></a>plt.tight_layout(rect<span class="op">=</span>[<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="fl">0.96</span>])</span>
+<span id="cb16-55"><a href="#cb16-55" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1600,6 +2198,27 @@ if (outputEl) {{
 </div>
 <div id="tabset-3-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-2-tab">
 <div id="0a0077b3-101a-42d9-a175-7b2de1d54252" class="cell" data-execution_count="36">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">8</span>))</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>fig.suptitle(<span class="st">'Cross-Validation MSE vs. log(</span><span class="ch">\u03BB</span><span class="st">)'</span>, fontsize<span class="op">=</span><span class="dv">16</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>, y<span class="op">=</span><span class="fl">0.98</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_cv(ax, alphas_array, mse_array, optimal_alpha, title):</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># R glmnet 스타일 (붉은 점, 수직 검은 점선)</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    ax.plot(np.log10(alphas_array), mse_array, <span class="st">'r.'</span>, markersize<span class="op">=</span><span class="dv">7</span>, label<span class="op">=</span><span class="st">'Mean MSE'</span>)</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    ax.axvline(np.log10(optimal_alpha), linestyle<span class="op">=</span><span class="st">'--'</span>, color<span class="op">=</span><span class="st">'k'</span>, alpha<span class="op">=</span><span class="fl">0.7</span>, </span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>               label<span class="op">=</span><span class="ss">f'Optimal </span><span class="ch">\u03BB</span><span class="ss"> = </span><span class="sc">{</span>optimal_alpha<span class="sc">:.2f}</span><span class="ss">'</span>)</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    ax.set_title(title, fontsize<span class="op">=</span><span class="dv">12</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    ax.set_xlabel(<span class="vs">r'</span><span class="dv">$</span><span class="er">\</span><span class="vs">log</span><span class="kw">(</span><span class="er">\</span><span class="vs">lambda</span><span class="kw">)</span><span class="dv">$</span><span class="vs">'</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    ax.set_ylabel(<span class="st">'MSE'</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>    ax.legend()</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>    ax.grid(<span class="va">True</span>, linestyle<span class="op">=</span><span class="st">':'</span>, alpha<span class="op">=</span><span class="fl">0.6</span>)</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>plot_cv(axes[<span class="dv">0</span>, <span class="dv">0</span>], alphas, ridge_mse_full, ridge_alpha_full, <span class="st">"[Full Data n=2,928] Ridge Model"</span>)</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>plot_cv(axes[<span class="dv">0</span>, <span class="dv">1</span>], lasso_full.alphas_, np.mean(lasso_full.mse_path_, axis<span class="op">=</span><span class="dv">1</span>), lasso_full.alpha_, <span class="st">"[Full Data n=2928] Lasso Model"</span>)</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>plot_cv(axes[<span class="dv">1</span>, <span class="dv">0</span>], alphas, ridge_mse_reduced, ridge_alpha_reduced, <span class="st">"[Reduced Data n=200] Ridge Model"</span>)</span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>plot_cv(axes[<span class="dv">1</span>, <span class="dv">1</span>], lasso_reduced.alphas_, np.mean(lasso_reduced.mse_path_, axis<span class="op">=</span><span class="dv">1</span>), lasso_reduced.alpha_, <span class="st">"[Reduced Data n=200] Lasso Model"</span>)</span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>plt.tight_layout(rect<span class="op">=</span>[<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="fl">0.96</span>])</span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1782,6 +2401,36 @@ if (outputEl) {{
 </tbody>
 </table>
 <p><code>4</code> 모형별 분산분석표</p>
+<div id="78b5a60a-b927-417f-9258-4afa36db5960" class="cell" data-execution_count="37">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats <span class="im">as</span> st</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 기존 get_anova_stats 함수 (동일하게 사용)</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_anova_stats(model, X, y):</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    y_pred <span class="op">=</span> model.predict(X)</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> <span class="bu">len</span>(y)</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    p <span class="op">=</span> X.shape[<span class="dv">1</span>]</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    sse <span class="op">=</span> np.<span class="bu">sum</span>((y <span class="op">-</span> y_pred) <span class="op">**</span> <span class="dv">2</span>)</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>    ssr <span class="op">=</span> np.<span class="bu">sum</span>((y_pred <span class="op">-</span> np.mean(y)) <span class="op">**</span> <span class="dv">2</span>)</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>    mse <span class="op">=</span> sse <span class="op">/</span> (n <span class="op">-</span> p <span class="op">-</span> <span class="dv">1</span>)</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>    msr <span class="op">=</span> ssr <span class="op">/</span> p</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>    f_stat <span class="op">=</span> msr <span class="op">/</span> mse <span class="cf">if</span> mse <span class="op">!=</span> <span class="dv">0</span> <span class="cf">else</span> <span class="dv">0</span></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {<span class="st">'SSR'</span>: ssr, <span class="st">'SSE'</span>: sse, <span class="st">'MSR'</span>: msr, <span class="st">'MSE'</span>: mse, <span class="st">'F'</span>: f_stat, <span class="st">'DFR'</span>: p, <span class="st">'DFE'</span>: n <span class="op">-</span> p <span class="op">-</span> <span class="dv">1</span>}</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 각 모형별 계산</span></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>stats_results <span class="op">=</span> {</span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Ridge_Full"</span>: get_anova_stats(ridge_grid_full.best_estimator_, X_full_scaled, y_full),</span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Lasso_Full"</span>: get_anova_stats(lasso_full, X_full_scaled, y_full),</span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Ridge_Red"</span>: get_anova_stats(ridge_grid_reduced.best_estimator_, X_reduced_scaled, y_reduced),</span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Lasso_Red"</span>: get_anova_stats(lasso_reduced, X_reduced_scaled, y_reduced)</span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a><span class="co"># 결과 출력 (보고서용)</span></span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a><span class="co">#p4rint(f"{'Model':&lt;15} | {'SSR':&lt;20} | {'MS (Res)':&lt;15} | {'F-stat':&lt;10} | {'p-value'}")</span></span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a><span class="co">#print("-" * 80)</span></span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a><span class="co">#for name, s in stats_results.items():</span></span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a><span class="co">#    p_val = st.f.sf(s['F'], s['DFR'], s['DFE'])</span></span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a><span class="co">#    print(f"{name:&lt;15} | {s['SSR']:,.0f} | {s['MSE']:,.0f} | {s['F']:,.2f} | {p_val:.2e}")</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true" href="">전체 데이터 (n=2,928)</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-2" role="tab" aria-controls="tabset-4-2" aria-selected="false" href="">축소 데이터 (n=200)</a></li></ul>
 <div class="tab-content">
@@ -2348,6 +2997,9 @@ if (outputEl) {{
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="../../posts/PR/PR.html" class="pagination-link" aria-label="PR">
+        <span class="nav-page-text">PR</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->

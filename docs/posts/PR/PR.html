@@ -326,7 +326,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="package" class="level1">
 <h1>Package</h1>
-<div id="32c812b0-5acb-4134-bd32-d20bbf0fa934" class="cell" data-execution_count="1">
+<div id="32c812b0-5acb-4134-bd32-d20bbf0fa934" class="cell" data-execution_count="33">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(data.table)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(showtext)</span>
@@ -349,205 +351,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="do">## R 그래프 이미지 그릴 시 기본 셋팅</span></span>
 <span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">repr.plot.width =</span> <span class="dv">6</span>, <span class="at">repr.plot.height =</span> <span class="dv">4</span>, <span class="at">repr.plot.res =</span> <span class="dv">200</span>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<div class="ansi-escaped-output">
-<pre>── <span class="ansi-bold">Attaching core tidyverse packages</span> ──────────────────────────────────────────────────────────────── tidyverse 2.0.0 ──
-
-<span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">dplyr    </span> 1.2.1     <span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">readr    </span> 2.2.0
-
-<span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">forcats  </span> 1.0.1     <span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">stringr  </span> 1.6.0
-
-<span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">ggplot2  </span> 4.0.3     <span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">tibble   </span> 3.3.1
-
-<span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">lubridate</span> 1.9.5     <span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">tidyr    </span> 1.3.2
-
-<span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">purrr    </span> 1.2.2     
-
-── <span class="ansi-bold">Conflicts</span> ────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
-
-<span class="ansi-red-fg">✖</span> <span class="ansi-blue-fg">dplyr</span>::<span class="ansi-green-fg">filter()</span> masks <span class="ansi-blue-fg">stats</span>::filter()
-
-<span class="ansi-red-fg">✖</span> <span class="ansi-blue-fg">dplyr</span>::<span class="ansi-green-fg">lag()</span>    masks <span class="ansi-blue-fg">stats</span>::lag()
-
-<span class="ansi-cyan-fg">ℹ</span> Use the conflicted package (<span style="font-style:italic" class="ansi-blue-fg">&lt;http://conflicted.r-lib.org/&gt;</span>) to force all conflicts to become errors
-
-
-
-Attaching package: 'data.table'
-
-
-
-
-
-The following objects are masked from 'package:lubridate':
-
-
-
-    hour, isoweek, isoyear, mday, minute, month, quarter, second, wday,
-
-    week, yday, year
-
-
-
-
-
-The following objects are masked from 'package:dplyr':
-
-
-
-    between, first, last
-
-
-
-
-
-The following object is masked from 'package:purrr':
-
-
-
-    transpose
-
-
-
-
-
-The following object is masked from 'package:base':
-
-
-
-    %notin%
-
-
-
-
-
-Loading required package: sysfonts
-
-
-
-Loading required package: showtextdb
-
-
-
-
-
-Attaching package: 'psych'
-
-
-
-
-
-The following objects are masked from 'package:ggplot2':
-
-
-
-    %+%, alpha
-
-
-
-
-
-Loading required package: carData
-
-
-
-
-
-Attaching package: 'car'
-
-
-
-
-
-The following object is masked from 'package:psych':
-
-
-
-    logit
-
-
-
-
-
-The following object is masked from 'package:dplyr':
-
-
-
-    recode
-
-
-
-
-
-The following object is masked from 'package:purrr':
-
-
-
-    some
-
-
-
-
-
-
-
-Attaching package: 'olsrr'
-
-
-
-
-
-The following object is masked from 'package:datasets':
-
-
-
-    rivers
-
-
-
-
-
-Loading required package: zoo
-
-
-
-
-
-Attaching package: 'zoo'
-
-
-
-
-
-The following objects are masked from 'package:data.table':
-
-
-
-    yearmon, yearqtr
-
-
-
-
-
-The following objects are masked from 'package:base':
-
-
-
-    as.Date, as.Date.numeric
-
-
-
-
-</pre>
-</div>
-</div>
+</details>
 </div>
 </section>
 <section id="data-load" class="level1">
 <h1>Data load</h1>
-<div id="d72a0cca-33eb-43e6-8f1e-ea30a9c02fc0" class="cell" data-execution_count="2">
+<div id="d72a0cca-33eb-43e6-8f1e-ea30a9c02fc0" class="cell" data-execution_count="34">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">'medical_insurance.csv'</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(data)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <div class="ansi-escaped-output">
 <pre>Rows: 2,772
@@ -576,7 +390,9 @@ $ charges  <span style="font-style:italic" class="ansi-bright-black-fg">&lt;dbl&
 <section id="data-processing" class="level1">
 <h1>Data processing</h1>
 <p><code>1</code> 컬럼명 변경</p>
-<div id="f89346e1-420b-4653-a74d-21b1ec74fd44" class="cell" data-execution_count="3">
+<div id="f89346e1-420b-4653-a74d-21b1ec74fd44" class="cell" data-execution_count="35">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> </span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>            <span class="fu">rename</span>(</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">y =</span> charges,</span>
@@ -587,11 +403,15 @@ $ charges  <span style="font-style:italic" class="ansi-bright-black-fg">&lt;dbl&
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>                <span class="at">x5 =</span> smoker,</span>
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>                <span class="at">x6 =</span> region</span>
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>            )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 <p><code>2</code> 문자형 변수 factor 처리</p>
-<div id="bfd41b17-b083-48ba-91e8-615b3799d0ee" class="cell" data-execution_count="4">
+<div id="bfd41b17-b083-48ba-91e8-615b3799d0ee" class="cell" data-execution_count="36">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> </span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>            <span class="fu">mutate_if</span>(is.character, as.factor)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 <hr>
 </section>
@@ -600,7 +420,9 @@ $ charges  <span style="font-style:italic" class="ansi-bright-black-fg">&lt;dbl&
 <section id="반응변수의료비-분포-확인" class="level2">
 <h2 class="anchored" data-anchor-id="반응변수의료비-분포-확인">반응변수(의료비) 분포 확인</h2>
 <p><code>1</code> Y 분포</p>
-<div id="71a24a10-d21f-4001-a697-6ab2ffcdd5ea" class="cell" data-execution_count="5">
+<div id="71a24a10-d21f-4001-a697-6ab2ffcdd5ea" class="cell" data-execution_count="37">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>fig1 <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> </span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>        <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> y)) <span class="sc">+</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>            <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">40</span>, <span class="at">color =</span> <span class="st">'darkblue'</span>, <span class="at">fill =</span> <span class="st">'steelblue'</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
@@ -624,18 +446,22 @@ $ charges  <span style="font-style:italic" class="ansi-bright-black-fg">&lt;dbl&
 <span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>        <span class="at">dpi =</span> <span class="dv">200</span>,</span>
 <span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>        <span class="at">width =</span> <span class="dv">170</span>,</span>
 <span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>        <span class="at">height =</span> <span class="dv">170</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 </section>
 <section id="상관분석" class="level2">
 <h2 class="anchored" data-anchor-id="상관분석">상관분석</h2>
-<div id="9b20f33a-4cba-4fd4-b779-5afcaeeb6228" class="cell" data-execution_count="6">
+<div id="9b20f33a-4cba-4fd4-b779-5afcaeeb6228" class="cell" data-execution_count="38">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">png</span>(<span class="at">filename =</span> <span class="st">"Figure/02. 상관분석.png"</span>, <span class="at">width =</span> <span class="dv">800</span>, <span class="at">height =</span> <span class="dv">800</span>, <span class="at">res =</span> <span class="dv">200</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs.panels</span>(<span class="at">x =</span> data <span class="sc">%&gt;%</span> </span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">select_if</span>(is.numeric))</span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display">
-<strong>agg_record_6f6c7701397e:</strong> 2
+<strong>agg_record_26ac1bd32e45:</strong> 2
 </div>
 </div>
 <hr>
@@ -644,11 +470,17 @@ $ charges  <span style="font-style:italic" class="ansi-bright-black-fg">&lt;dbl&
 <section id="modeling" class="level1 page-columns page-full">
 <h1>Modeling</h1>
 <p><code>1</code> 기본적인 다중 선형 회귀모델 적합</p>
-<div id="5143dd47-379c-44d0-86a5-bac896ac34fe" class="cell" data-execution_count="7">
+<div id="5143dd47-379c-44d0-86a5-bac896ac34fe" class="cell" data-execution_count="39">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(y<span class="sc">~</span>., data)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
-<div id="9a75b851-5f3d-45df-907d-aded4a3fddb1" class="cell" data-execution_count="8">
+<div id="9a75b851-5f3d-45df-907d-aded4a3fddb1" class="cell" data-execution_count="40">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display">
 <pre><code>
 Call:
@@ -677,8 +509,11 @@ Multiple R-squared:  0.7509,    Adjusted R-squared:  0.7502
 F-statistic:  1041 on 8 and 2763 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
-<div id="2f54fb83-8d26-4c65-be78-8fd12e318eb0" class="cell page-columns page-full" data-execution_count="9">
+<div id="2f54fb83-8d26-4c65-be78-8fd12e318eb0" class="cell page-columns page-full" data-execution_count="41">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vif</span>(m1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display page-columns page-full">
 <table class="dataframe table table-sm table-striped small">
 
@@ -736,25 +571,37 @@ F-statistic:  1041 on 8 and 2763 DF,  p-value: &lt; 2.2e-16</code></pre>
 <h1>Model tuning</h1>
 <section id="연령변수-다항회귀-추가2차항" class="level2">
 <h2 class="anchored" data-anchor-id="연령변수-다항회귀-추가2차항">연령변수 다항회귀 추가(2차항)</h2>
-<div id="24672778-5bb1-4518-b796-8730447d94aa" class="cell" data-execution_count="10">
+<div id="24672778-5bb1-4518-b796-8730447d94aa" class="cell" data-execution_count="42">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>data2 <span class="ot">&lt;-</span> <span class="fu">tibble</span>(data)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>data2<span class="sc">$</span>x1_2 <span class="ot">&lt;-</span> data2<span class="sc">$</span>x1<span class="sc">^</span><span class="dv">2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 </section>
 <section id="bmi-수치변수-지시변수-추가" class="level2">
 <h2 class="anchored" data-anchor-id="bmi-수치변수-지시변수-추가">BMI 수치변수 지시변수 추가</h2>
-<div id="c3c59556-51a8-433b-ad75-4bbaed826f8a" class="cell" data-execution_count="11">
+<div id="c3c59556-51a8-433b-ad75-4bbaed826f8a" class="cell" data-execution_count="43">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>data2<span class="sc">$</span>x3_30 <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(<span class="fu">ifelse</span>(data2<span class="sc">$</span>x3 <span class="sc">&gt;=</span> <span class="dv">30</span>, <span class="dv">1</span>, <span class="dv">0</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 </section>
 <section id="모델-적합" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="모델-적합">모델 적합</h2>
 <p><code>-</code> BMI와 흡연의 상호작용까지 추가하여 모델 적합</p>
-<div id="b7479d74-cf66-48be-9b40-b26a4518c1f9" class="cell" data-execution_count="12">
+<div id="b7479d74-cf66-48be-9b40-b26a4518c1f9" class="cell" data-execution_count="44">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> x1_2 <span class="sc">+</span> x2 <span class="sc">+</span>  x3 <span class="sc">+</span> x3_30 <span class="sc">+</span> x4 <span class="sc">+</span> x5 <span class="sc">+</span> x6 <span class="sc">+</span> x3_30<span class="sc">:</span>x5 ,data2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
-<div id="44820b26-5384-43ea-9c73-43b4b9e93dd3" class="cell page-columns page-full" data-execution_count="13">
+<div id="44820b26-5384-43ea-9c73-43b4b9e93dd3" class="cell page-columns page-full" data-execution_count="45">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vif</span>(m2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-stderr">
 <pre><code>there are higher-order terms (interactions) in this model
 consider setting type = 'predictor'; see ?vif
@@ -824,8 +671,11 @@ consider setting type = 'predictor'; see ?vif
 </table>
 <div class="quarto-table-caption margin-caption">A matrix: 8 × 3 of type dbl</div></div>
 </div>
-<div id="6c0ee4d5-5921-43d1-9c3e-9abac74dcc30" class="cell" data-execution_count="14">
+<div id="6c0ee4d5-5921-43d1-9c3e-9abac74dcc30" class="cell" data-execution_count="46">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display">
 <pre><code>
 Call:
@@ -860,36 +710,45 @@ F-statistic:  1774 on 10 and 2761 DF,  p-value: &lt; 2.2e-16</code></pre>
 </section>
 <section id="모형-성능-비교" class="level2">
 <h2 class="anchored" data-anchor-id="모형-성능-비교">모형 성능 비교</h2>
-<div id="5f435bfc-1d35-4498-8af2-ed88d60797bf" class="cell" data-execution_count="15">
+<div id="5f435bfc-1d35-4498-8af2-ed88d60797bf" class="cell" data-execution_count="47">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>r2_m1 <span class="ot">&lt;-</span> <span class="fu">summary</span>(m1)<span class="sc">$</span>r.squared</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>r2_m2 <span class="ot">&lt;-</span> <span class="fu">summary</span>(m2)<span class="sc">$</span>r.squared</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"m1 결정계수:"</span>, r2_m1, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
 <span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"m2 결정계수:"</span>, r2_m2, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>m1 결정계수: 0.7509332 
 m2 결정계수: 0.865326 </code></pre>
 </div>
 </div>
-<div id="c0e0cf16-508e-4ecb-9a19-080342dab172" class="cell" data-execution_count="16">
+<div id="c0e0cf16-508e-4ecb-9a19-080342dab172" class="cell" data-execution_count="48">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>rmse_m1 <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">anova</span>(m1)[<span class="st">"Residuals"</span>, <span class="st">"Mean Sq"</span>])</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>rmse_m2 <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">anova</span>(m2)[<span class="st">"Residuals"</span>, <span class="st">"Mean Sq"</span>])</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"m1 RMSE:"</span>, rmse_m1, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
 <span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"m2 RMSE:"</span>, rmse_m2, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>m1 RMSE: 6073.308 
 m2 RMSE: 4467.519 </code></pre>
 </div>
 </div>
 <p><code>1</code> cp값이 p+1이 되면 좋은 모형</p>
-<div id="45eaf23e-248a-49d7-8ee7-4191cda6295a" class="cell" data-execution_count="17">
+<div id="45eaf23e-248a-49d7-8ee7-4191cda6295a" class="cell" data-execution_count="49">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>cp_m1 <span class="ot">&lt;-</span> <span class="fu">ols_mallows_cp</span>(m1, m2)</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>cp_m2 <span class="ot">&lt;-</span> <span class="fu">ols_mallows_cp</span>(m2, m2)</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"m1 CP값:"</span>, cp_m1, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
 <span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"m2 CP값:"</span>, cp_m2, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>m1 CP값: 2352.21 
 m2 CP값: 11 </code></pre>
@@ -902,7 +761,9 @@ m2 CP값: 11 </code></pre>
 <h1>회귀진단</h1>
 <section id="이상치-판단" class="level2">
 <h2 class="anchored" data-anchor-id="이상치-판단">이상치 판단</h2>
-<div id="bf9e8b0b-f6dc-4557-a873-a23f0674fce7" class="cell" data-execution_count="18">
+<div id="bf9e8b0b-f6dc-4557-a873-a23f0674fce7" class="cell" data-execution_count="50">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co">#png(filename = "Figure/03. 이상치 판난.png", width = 1000, height = 800, res = 200)</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. 통계량 계산 (m2 모형이 이미 존재한다고 가정)</span></span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nobs</span>(m2)</span>
@@ -949,6 +810,7 @@ m2 CP값: 11 </code></pre>
 <span id="cb24-44"><a href="#cb24-44" aria-hidden="true" tabindex="-1"></a><span class="co">#cat("탐지된 이상치 인덱스:", outlier_indices, "\n")</span></span>
 <span id="cb24-45"><a href="#cb24-45" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-46"><a href="#cb24-46" aria-hidden="true" tabindex="-1"></a><span class="co">#dev.off()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -957,10 +819,13 @@ m2 CP값: 11 </code></pre>
 </div>
 </div>
 </div>
-<div id="609b003f-85a8-4afc-956e-f4b6b598e1f0" class="cell" data-execution_count="19">
+<div id="609b003f-85a8-4afc-956e-f4b6b598e1f0" class="cell" data-execution_count="51">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 결과 확인 (옵션)</span></span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"계산된 t-임계값:"</span>, <span class="fu">round</span>(t_crit, <span class="dv">2</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"탐지된 이상치 인덱스:"</span>, outlier_indices, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>계산된 t-임계값: 1.96 
 탐지된 이상치 인덱스: 4 10 35 46 63 103 116 129 139 141 144 220 228 243 246 290 292 306 307 322 335 341 355 356 380 383 388 398 430 431 444 456 462 469 474 477 492 517 521 525 527 534 540 544 555 574 578 584 600 638 642 645 659 662 689 697 755 771 807 820 859 877 918 926 937 960 965 981 984 988 1004 1009 1013 1020 1028 1040 1058 1099 1105 1124 1129 1135 1143 1158 1163 1190 1196 1207 1212 1216 1224 1231 1259 1301 1304 1319 1329 1370 1377 1385 1390 1396 1421 1432 1449 1489 1502 1515 1525 1527 1530 1606 1614 1629 1632 1676 1678 1692 1693 1708 1721 1727 1741 1742 1766 1769 1774 1784 1816 1817 1830 1842 1848 1855 1860 1863 1878 1903 1907 1911 1913 1920 1926 1930 1941 1960 1964 1970 1986 2024 2028 2031 2045 2048 2075 2083 2141 2157 2193 2206 2245 2263 2304 2312 2323 2346 2351 2367 2370 2374 2390 2395 2399 2406 2414 2426 2444 2485 2491 2510 2515 2521 2529 2544 2549 2576 2582 2593 2598 2602 2610 2617 2645 2687 2690 2705 2715 2756 2763 2771 </code></pre>
@@ -969,7 +834,9 @@ m2 CP값: 11 </code></pre>
 </section>
 <section id="지룃대점" class="level2">
 <h2 class="anchored" data-anchor-id="지룃대점">지룃대점</h2>
-<div id="a0d471f2-1b9a-4a3d-a4de-9e5a6ddae0bd" class="cell" data-execution_count="20">
+<div id="a0d471f2-1b9a-4a3d-a4de-9e5a6ddae0bd" class="cell" data-execution_count="52">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co">#png(filename = "Figure/04. 지룃대점 판단.png", width = 1000, height = 800, res = 200)</span></span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. 계산 (m2 모형이 이미 존재한다고 가정)</span></span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nobs</span>(m2)</span>
@@ -1013,6 +880,7 @@ m2 CP값: 11 </code></pre>
 <span id="cb27-41"><a href="#cb27-41" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"계산된 임계값 (h_crit):"</span>, <span class="fu">round</span>(h_crit, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
 <span id="cb27-42"><a href="#cb27-42" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"탐지된 지렛대점 인덱스:"</span>, leverage_indices, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
 <span id="cb27-43"><a href="#cb27-43" aria-hidden="true" tabindex="-1"></a><span class="co">#dev.off()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>계산된 임계값 (h_crit): 0.008 
 탐지된 지렛대점 인덱스: 287 439 544 848 861 1048 1086 1318 1673 1825 1930 2234 2247 2434 2472 2704 </code></pre>
@@ -1028,7 +896,9 @@ m2 CP값: 11 </code></pre>
 </section>
 <section id="영향점" class="level2">
 <h2 class="anchored" data-anchor-id="영향점">영향점</h2>
-<div id="94a7e052-1498-45b4-9f3e-d5b9d1758032" class="cell" data-execution_count="21">
+<div id="94a7e052-1498-45b4-9f3e-d5b9d1758032" class="cell" data-execution_count="53">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co">#png(filename = "Figure/05. 영향점 판단.png", width = 1000, height = 800, res = 200)</span></span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. 계산 (m2 모형이 이미 존재한다고 가정)</span></span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nobs</span>(m2)</span>
@@ -1079,6 +949,7 @@ m2 CP값: 11 </code></pre>
 <span id="cb29-48"><a href="#cb29-48" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"탐지된 영향점 인덱스:"</span>, influential_indices, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
 <span id="cb29-49"><a href="#cb29-49" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb29-50"><a href="#cb29-50" aria-hidden="true" tabindex="-1"></a><span class="co">#dev.off()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>계산된 F-분포 임계값 (d_crit): 0.94 
 탐지된 영향점 인덱스:  </code></pre>
@@ -1094,7 +965,9 @@ m2 CP값: 11 </code></pre>
 </section>
 <section id="이상점-지룃대점-제거-후-비교" class="level2">
 <h2 class="anchored" data-anchor-id="이상점-지룃대점-제거-후-비교">이상점, 지룃대점 제거 후 비교</h2>
-<div id="5d0643c7-7341-4a55-a5da-ced4a6512933" class="cell" data-execution_count="22">
+<div id="5d0643c7-7341-4a55-a5da-ced4a6512933" class="cell" data-execution_count="54">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ========================================================</span></span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="co"># [사전 작업] 이상점 및 지렛대점 인덱스 다시 계산</span></span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ========================================================</span></span>
@@ -1207,6 +1080,7 @@ m2 CP값: 11 </code></pre>
 <span id="cb31-110"><a href="#cb31-110" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
 <span id="cb31-111"><a href="#cb31-111" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"제거할 이상점이나 지렛대점이 존재하지 않아 m3 모형을 적합하지 않습니다.</span><span class="sc">\n</span><span class="st">"</span>)</span>
 <span id="cb31-112"><a href="#cb31-112" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>탐지된 이상점 인덱스: 4 10 35 46 63 103 116 129 139 141 144 220 228 243 246 290 292 306 307 322 335 341 355 356 380 383 388 398 430 431 444 456 462 469 474 477 492 517 521 525 527 534 540 544 555 574 578 584 600 638 642 645 659 662 689 697 755 771 807 820 859 877 918 926 937 960 965 981 984 988 1004 1009 1013 1020 1028 1040 1058 1099 1105 1124 1129 1135 1143 1158 1163 1190 1196 1207 1212 1216 1224 1231 1259 1301 1304 1319 1329 1370 1377 1385 1390 1396 1421 1432 1449 1489 1502 1515 1525 1527 1530 1606 1614 1629 1632 1676 1678 1692 1693 1708 1721 1727 1741 1742 1766 1769 1774 1784 1816 1817 1830 1842 1848 1855 1860 1863 1878 1903 1907 1911 1913 1920 1926 1930 1941 1960 1964 1970 1986 2024 2028 2031 2045 2048 2075 2083 2141 2157 2193 2206 2245 2263 2304 2312 2323 2346 2351 2367 2370 2374 2390 2395 2399 2406 2414 2426 2444 2485 2491 2510 2515 2521 2529 2544 2549 2576 2582 2593 2598 2602 2610 2617 2645 2687 2690 2705 2715 2756 2763 2771 
 탐지된 지렛대점 인덱스: 287 439 544 848 861 1048 1086 1318 1673 1825 1930 2234 2247 2434 2472 2704 
@@ -1254,7 +1128,9 @@ m2 CP값: 11 </code></pre>
 <h2 class="anchored" data-anchor-id="제거-전후-시각화-비교">제거 전후 시각화 비교</h2>
 <section id="fitted-vs-true" class="level3">
 <h3 class="anchored" data-anchor-id="fitted-vs-true">fitted vs True</h3>
-<div id="f5bc4836-e0c5-4d0e-af62-327f1b399a70" class="cell" data-execution_count="23">
+<div id="f5bc4836-e0c5-4d0e-af62-327f1b399a70" class="cell" data-execution_count="55">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. 화면 분할 (1행 2열) 및 하단 바깥쪽 여백(oma) 확보</span></span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 하단에 범례가 들어갈 수 있도록 oma의 첫 번째 값(하단)을 4로 설정</span></span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="co">#png(filename = "Figure/06. 특정점 제거 후 fitted vs ture 비교.png", width = 1800, height = 800, res = 200)</span></span>
@@ -1312,6 +1188,7 @@ m2 CP값: 11 </code></pre>
 <span id="cb33-55"><a href="#cb33-55" aria-hidden="true" tabindex="-1"></a><span class="co"># 설정 초기화</span></span>
 <span id="cb33-56"><a href="#cb33-56" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>), <span class="at">oma=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>), <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">2</span>) <span class="sc">+</span> <span class="fl">0.1</span>)</span>
 <span id="cb33-57"><a href="#cb33-57" aria-hidden="true" tabindex="-1"></a><span class="co">#dev.off()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1323,7 +1200,9 @@ m2 CP값: 11 </code></pre>
 </section>
 <section id="잔차-plot" class="level3">
 <h3 class="anchored" data-anchor-id="잔차-plot">잔차 plot</h3>
-<div id="bf760964-f6a1-4135-ae88-b192e032390c" class="cell" data-execution_count="24">
+<div id="bf760964-f6a1-4135-ae88-b192e032390c" class="cell" data-execution_count="56">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. 두 모형의 잔차를 모아 동일한 Y축 범위(최소~최대) 계산</span></span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="co">#png(filename = "Figure/07. 잔차plot 비교.png", width = 1800, height = 800, res = 200)</span></span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>y_range <span class="ot">&lt;-</span> <span class="fu">range</span>(<span class="fu">c</span>(<span class="fu">resid</span>(m2), <span class="fu">resid</span>(m3)))</span>
@@ -1364,6 +1243,7 @@ m2 CP값: 11 </code></pre>
 <span id="cb34-38"><a href="#cb34-38" aria-hidden="true" tabindex="-1"></a><span class="co"># 레이아웃 초기화</span></span>
 <span id="cb34-39"><a href="#cb34-39" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>))</span>
 <span id="cb34-40"><a href="#cb34-40" aria-hidden="true" tabindex="-1"></a><span class="co">#dev.off()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1379,7 +1259,9 @@ m2 CP값: 11 </code></pre>
 <h1>다시금 이상치, 지룃대점, 영향점 판단</h1>
 <section id="이상치" class="level2">
 <h2 class="anchored" data-anchor-id="이상치">이상치</h2>
-<div id="f69afb34-3cb9-4c0c-9e7a-11809c54a4a0" class="cell" data-execution_count="25">
+<div id="f69afb34-3cb9-4c0c-9e7a-11809c54a4a0" class="cell" data-execution_count="57">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co">#png(filename = "Figure/08. 이상치 판단 (2).png", width = 1000, height = 800, res = 200)</span></span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. 통계량 계산 (m2 모형이 이미 존재한다고 가정)</span></span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nobs</span>(m3)</span>
@@ -1426,6 +1308,7 @@ m2 CP값: 11 </code></pre>
 <span id="cb35-44"><a href="#cb35-44" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"탐지된 이상치 인덱스:"</span>, outlier_indices, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
 <span id="cb35-45"><a href="#cb35-45" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb35-46"><a href="#cb35-46" aria-hidden="true" tabindex="-1"></a><span class="co">#dev.off()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>계산된 t-임계값: 1.96 
 탐지된 이상치 인덱스: 13 95 149 175 236 250 251 252 275 331 355 384 399 451 484 488 504 538 577 619 682 689 713 744 883 889 999 1017 1039 1046 1058 1068 1100 1134 1156 1174 1215 1228 1237 1292 1374 1428 1454 1515 1529 1530 1531 1554 1610 1634 1663 1678 1730 1763 1767 1783 1817 1856 1898 1961 1968 1992 2023 2162 2168 2278 2296 2318 2325 2337 2347 2379 2413 2435 2453 2494 2507 2516 </code></pre>
@@ -1441,7 +1324,9 @@ m2 CP값: 11 </code></pre>
 </section>
 <section id="지룃대점-1" class="level2">
 <h2 class="anchored" data-anchor-id="지룃대점-1">지룃대점</h2>
-<div id="fd3e5818-5808-4e35-be02-7e5e62201b4f" class="cell" data-execution_count="26">
+<div id="fd3e5818-5808-4e35-be02-7e5e62201b4f" class="cell" data-execution_count="58">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co">#png(filename = "Figure/09. 지룃대점 판단(2).png", width = 1000, height = 800, res = 200)</span></span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. 계산 (m2 모형이 이미 존재한다고 가정)</span></span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1483,6 +1368,7 @@ m2 CP값: 11 </code></pre>
 <span id="cb37-39"><a href="#cb37-39" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"계산된 임계값 (h_crit):"</span>, <span class="fu">round</span>(h_crit, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
 <span id="cb37-40"><a href="#cb37-40" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"탐지된 지렛대점 인덱스:"</span>, leverage_indices, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
 <span id="cb37-41"><a href="#cb37-41" aria-hidden="true" tabindex="-1"></a><span class="co">#dev.off()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>계산된 임계값 (h_crit): 0.009 
 탐지된 지렛대점 인덱스: 609 1039 1888 2318 </code></pre>
@@ -1498,7 +1384,9 @@ m2 CP값: 11 </code></pre>
 </section>
 <section id="영향점-1" class="level2">
 <h2 class="anchored" data-anchor-id="영향점-1">영향점</h2>
-<div id="145df95a-8acd-4def-b69d-b2b5358b8a77" class="cell" data-execution_count="27">
+<div id="145df95a-8acd-4def-b69d-b2b5358b8a77" class="cell" data-execution_count="59">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co">#png(filename = "Figure/10. 영향점 판단(2).png", width = 1000, height = 800, res = 200)</span></span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. 계산 (m2 모형이 이미 존재한다고 가정)</span></span>
 <span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1547,6 +1435,7 @@ m2 CP값: 11 </code></pre>
 <span id="cb39-46"><a href="#cb39-46" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"탐지된 영향점 인덱스:"</span>, influential_indices, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
 <span id="cb39-47"><a href="#cb39-47" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb39-48"><a href="#cb39-48" aria-hidden="true" tabindex="-1"></a><span class="co">#dev.off()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>계산된 F-분포 임계값 (d_crit): 0.94 
 탐지된 영향점 인덱스:  </code></pre>
@@ -1564,7 +1453,9 @@ m2 CP값: 11 </code></pre>
 <h2 class="anchored" data-anchor-id="한번더-해당-관측치-제거">한번더 해당 관측치 제거</h2>
 <section id="비교" class="level3">
 <h3 class="anchored" data-anchor-id="비교">비교</h3>
-<div id="3c7742e2-6cbb-4b0b-a9a5-5d15afbd8e93" class="cell" data-execution_count="28">
+<div id="3c7742e2-6cbb-4b0b-a9a5-5d15afbd8e93" class="cell" data-execution_count="60">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ========================================================</span></span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="co"># [사전 작업] m3 모형 기준 이상점 및 지렛대점 인덱스 다시 계산</span></span>
 <span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ========================================================</span></span>
@@ -1678,6 +1569,7 @@ m2 CP값: 11 </code></pre>
 <span id="cb41-111"><a href="#cb41-111" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
 <span id="cb41-112"><a href="#cb41-112" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"제거할 이상점이나 지렛대점이 존재하지 않아 m4 모형을 적합하지 않습니다.</span><span class="sc">\n</span><span class="st">"</span>)</span>
 <span id="cb41-113"><a href="#cb41-113" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>탐지된 이상점 인덱스: 13 95 149 175 236 250 251 252 275 331 355 384 399 451 484 488 504 538 577 619 682 689 713 744 883 889 999 1017 1039 1046 1058 1068 1100 1134 1156 1174 1215 1228 1237 1292 1374 1428 1454 1515 1529 1530 1531 1554 1610 1634 1663 1678 1730 1763 1767 1783 1817 1856 1898 1961 1968 1992 2023 2162 2168 2278 2296 2318 2325 2337 2347 2379 2413 2435 2453 2494 2507 2516 
 탐지된 지렛대점 인덱스: 609 1039 1888 2318 
@@ -1726,7 +1618,9 @@ m2 CP값: 11 </code></pre>
 <h2 class="anchored" data-anchor-id="제거-전후-시각화-비교2">제거 전후 시각화 비교(2)</h2>
 <section id="fitted-vs-true-1" class="level3">
 <h3 class="anchored" data-anchor-id="fitted-vs-true-1">fitted vs True</h3>
-<div id="b42bf580-099e-4867-ba55-620fc9994ed1" class="cell" data-execution_count="29">
+<div id="b42bf580-099e-4867-ba55-620fc9994ed1" class="cell" data-execution_count="61">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># (선택) 이미지로 저장하려면 아래 주석(#)을 해제하세요.</span></span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="co">#png(filename = "Figure/11. 특정점 제거 후 fitted vs ture 비교(2).png", width = 1800, height = 800, res = 200)</span></span>
 <span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1789,6 +1683,7 @@ m2 CP값: 11 </code></pre>
 <span id="cb43-60"><a href="#cb43-60" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb43-61"><a href="#cb43-61" aria-hidden="true" tabindex="-1"></a><span class="co"># (선택) png() 함수를 사용하셨다면 아래 코드로 디바이스를 닫아주세요.</span></span>
 <span id="cb43-62"><a href="#cb43-62" aria-hidden="true" tabindex="-1"></a><span class="co">#dev.off()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1800,7 +1695,9 @@ m2 CP값: 11 </code></pre>
 </section>
 <section id="잔차-plot-1" class="level3">
 <h3 class="anchored" data-anchor-id="잔차-plot-1">잔차 plot</h3>
-<div id="ff90117a-a18e-4695-8c04-2af7b7b862a2" class="cell" data-execution_count="30">
+<div id="ff90117a-a18e-4695-8c04-2af7b7b862a2" class="cell" data-execution_count="62">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. 두 모형의 잔차를 모아 동일한 Y축 범위(최소~최대) 계산</span></span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="co">#png(filename = "Figure/12. 잔차plot 비교(2).png", width = 1800, height = 800, res = 200)</span></span>
 <span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>y_range <span class="ot">&lt;-</span> <span class="fu">range</span>(<span class="fu">c</span>(<span class="fu">resid</span>(m3), <span class="fu">resid</span>(m4)))</span>
@@ -1839,6 +1736,7 @@ m2 CP값: 11 </code></pre>
 <span id="cb44-36"><a href="#cb44-36" aria-hidden="true" tabindex="-1"></a><span class="co"># 레이아웃 초기화</span></span>
 <span id="cb44-37"><a href="#cb44-37" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>))</span>
 <span id="cb44-38"><a href="#cb44-38" aria-hidden="true" tabindex="-1"></a><span class="co">#dev.off()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1850,7 +1748,9 @@ m2 CP값: 11 </code></pre>
 </section>
 <section id="qqplot" class="level3">
 <h3 class="anchored" data-anchor-id="qqplot">qqplot</h3>
-<div id="fe56cbe3-f425-4c41-8ae9-66703b0c2aab" class="cell" data-execution_count="31">
+<div id="fe56cbe3-f425-4c41-8ae9-66703b0c2aab" class="cell" data-execution_count="63">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co">#png(filename = "Figure/13. QQplot 비교.png", width = 1800, height = 800, res = 200)</span></span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. 두 모형의 표준화 잔차 추출 및 Q-Q 플롯용 좌표 사전 계산</span></span>
@@ -1896,6 +1796,7 @@ m2 CP값: 11 </code></pre>
 <span id="cb45-43"><a href="#cb45-43" aria-hidden="true" tabindex="-1"></a><span class="co"># 레이아웃 초기화</span></span>
 <span id="cb45-44"><a href="#cb45-44" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>))</span>
 <span id="cb45-45"><a href="#cb45-45" aria-hidden="true" tabindex="-1"></a><span class="co">#dev.off()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1907,7 +1808,9 @@ m2 CP값: 11 </code></pre>
 </section>
 <section id="dwtest" class="level3">
 <h3 class="anchored" data-anchor-id="dwtest">dwtest</h3>
-<div id="1504ddd0-0c5e-4e3d-bd56-9b0ee1e65d05" class="cell" data-execution_count="32">
+<div id="1504ddd0-0c5e-4e3d-bd56-9b0ee1e65d05" class="cell" data-execution_count="64">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. 패키지 설치 및 로드 (설치되어 있지 않다면 주석 해제)</span></span>
 <span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("lmtest")</span></span>
 <span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lmtest)</span>
@@ -1945,6 +1848,7 @@ m2 CP값: 11 </code></pre>
 <span id="cb46-35"><a href="#cb46-35" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb46-36"><a href="#cb46-36" aria-hidden="true" tabindex="-1"></a><span class="fu">check_dw</span>(dw_m3, <span class="st">"m3"</span>)</span>
 <span id="cb46-37"><a href="#cb46-37" aria-hidden="true" tabindex="-1"></a><span class="fu">check_dw</span>(dw_m4, <span class="st">"m4"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>================ [ 1. 제거 전 (m3 모형) ] ================
 
